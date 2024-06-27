@@ -1,0 +1,29 @@
+spring:
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  # 数据库
+  datasource:
+    username: root
+    password: lw001208
+    url: jdbc:mysql://localhost:3306/blog?serverTimezone=GMT%2b8&useUnicode=true&characterEncoding=utf8
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+  jpa:
+    show-sql: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  mvc:
+    static-path-pattern: /**
+server:
+  port: 8080
+
+jwt:
+  secret:daf66e01593f61a15b857cf433aae03a005812b31234e149036bcc8dee755dbb
+  expiration:604800000
+
