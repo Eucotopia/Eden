@@ -7,16 +7,17 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "role")
 @Setter
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 @Schema(description = "Role entity")
 public class Role implements Serializable {
 
@@ -27,7 +28,7 @@ public class Role implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     @Schema(description = "Unique identifier for the role", example = "123e4567-e89b-12d3-a456-426614174000")
-    private UUID id;
+    private String id;
 
     @Column(name = "name", nullable = false, unique = true)
     @Schema(description = "Name of the role")
@@ -57,4 +58,5 @@ public class Role implements Serializable {
     @JsonIgnore
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "roles")
     private Set<User> users;
+
 }

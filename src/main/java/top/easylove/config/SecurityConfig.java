@@ -1,5 +1,6 @@
 package top.easylove.config;
 
+import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -15,27 +16,29 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
+import top.easylove.filter.CustomAccessDeniedHandler;
+import top.easylove.filter.CustomAuthenticationEntryPoint;
+import top.easylove.filter.JwtAuthenticationFilter;
 
 @Configuration
 @EnableJpaAuditing
 @EnableMethodSecurity
 public class SecurityConfig {
 
-//
-//    @Resource
-//    private JwtAuthenticationFilter jwtAuthenticationFilter;
-//
-//    @Resource
-//    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
+    @Resource
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Resource
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-//    @Resource
-//    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    @Resource
+    private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -50,13 +53,16 @@ public class SecurityConfig {
                     source.registerCorsConfiguration("/**", configuration);
                     cors.configurationSource(source);
                 })
-                .authorizeHttpRequests((authorize) -> {
-                    authorize
-                            .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
-                            .anyRequest().permitAll();
-                });
+                .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
+                        .anyRequest().permitAll())
+                .exceptionHandling(exceptionHandling -> {
+                    exceptionHandling.authenticationEntryPoint(customAuthenticationEntryPoint);
+                    exceptionHandling.accessDeniedHandler(customAccessDeniedHandler);
+                })
+        ;
 
-//        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

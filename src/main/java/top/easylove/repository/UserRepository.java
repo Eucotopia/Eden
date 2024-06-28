@@ -10,11 +10,12 @@ import java.util.Optional;
 
 @Repository
 @Tag(name = "User Repository", description = "Repository for accessing user data")
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
 
     @Operation(summary = "Check if user exists by email", description = "Checks if a user exists with the given email address")
     Boolean existsUserByEmail(String email);
 
     @Operation(summary = "Find user by email", description = "Finds a user with the given email address")
     Optional<User> findUserByEmail(String email);
+
 }

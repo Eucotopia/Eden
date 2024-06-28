@@ -50,23 +50,23 @@ public class User implements Serializable {
 
     @Column(name = "avatar")
     @Schema(description = "URL of the user's avatar", example = "https://example.com/avatar.jpg")
-    private String avatar;
+    private String avatar = "https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
 
     @Column(name = "gender")
-    @Schema(description = "Gender of the user", example = "18")
-    private Integer gender;
+    @Schema(description = "Gender of the user", example = "0", allowableValues = {"0", "1", "2"})
+    private Integer gender = 2;
 
-    @Schema(description = "Status of the user", example = "0:Active;1:Inactive;2:Pending;3:Banned;4:Deleted")
+    @Schema(description = "Status of the user", allowableValues = {"0", "1", "2", "3", "4"}, example = "0:Active;1:Inactive;2:Pending;3:Banned;4:Deleted")
     @Column(name = "status")
-    private Integer status;
+    private Integer status = 2;
 
     @CreatedDate
-    @Column(name = "create_at", nullable = false)
+    @Column(name = "created_at", nullable = false)
     @Schema(description = "Creation date of the user account", example = "2023-01-01T12:00:00")
     private Date createAt;
 
     @LastModifiedDate
-    @Column(name = "update_at")
+    @Column(name = "updated_at")
     @Schema(description = "Last update date of the user account", example = "2023-01-01T12:00:00")
     private Date update_at;
 
@@ -74,24 +74,27 @@ public class User implements Serializable {
     @Schema(description = "Birth date of the user", example = "1990-01-01")
     private Date birthDate;
 
-    @Column(name = "motto", nullable = true)
+    @Column(name = "motto")
     @Schema(description = "Motto or personal slogan of the user", example = "Work hard, play hard.")
-    private String motto;
+    private String motto = "Work hard, play hard.";
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", motto='" + motto + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", avatar='" + avatar + '\'' +
+                ", gender=" + gender +
                 ", status=" + status +
-                ", status='" + status + '\'' +
+                ", createAt=" + createAt +
+                ", update_at=" + update_at +
+                ", birthDate=" + birthDate +
+                ", motto='" + motto + '\'' +
                 '}';
     }
-
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(

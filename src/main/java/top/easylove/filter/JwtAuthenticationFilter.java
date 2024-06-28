@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -22,13 +23,10 @@ import top.easylove.util.JwtTokenProvider;
 import java.io.IOException;
 import java.util.Optional;
 
-/**
- * @author LW
- * @date 2023/7/15
- */
 @Component
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     @Resource
     protected JwtTokenProvider jwtTokenProvider;
 
@@ -41,16 +39,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain filterChain) throws ServletException, IOException {
 
-        // get token from http request
         String authorization = getTokenFromRequest(request);
 
-        // validate token
         if (StringUtils.hasText(authorization) && jwtTokenProvider.validateToken(authorization)) {
 
-            // get username from token
             String email = jwtTokenProvider.getEmail(authorization);
 
-            // load the user associated with token
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -59,12 +53,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     userDetails.getAuthorities()
             );
 
-            // get user email
             Optional<User> user = userRepository.findUserByEmail(userDetails.getUsername());
 
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-            user.ifPresent(value -> authenticationToken.setDetails(new CustomWebAuthenticationDetails(request, value.getId())));
+            user.ifPresent(value -> authenticationToken.setDetails(new WebAuthenticationDetails(request)));
 
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
