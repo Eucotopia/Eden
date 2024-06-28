@@ -4,13 +4,15 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Validator;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import top.easylove.common.RoleConstants;
+import top.easylove.constant.RoleConstants;
 import top.easylove.enums.ResultEnum;
 import top.easylove.pojo.Role;
 import top.easylove.pojo.User;
@@ -52,16 +54,11 @@ public class UserServiceImpl implements IUserService {
 
         User user = userRepository.findUserByEmail(authenticationDto.getEmail()).orElseThrow(() -> new RuntimeException(ResultEnum.USER_NOT_FOUND.getMessage()));
 
-        if (user.getStatus() == 2) {
-            return ResultResponse.error(ResultEnum.USER_PENDING_APPROVAL);
-        }
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String authorization = jwtTokenProvider.generateToken(authentication);
 
         return ResultResponse.success(ResultEnum.USER_LOGIN_SUCCESS, new AuthenticationVO(user.getUsername(), user.getEmail(), authorization, user.getAvatar()));
-
     }
 
     @Override

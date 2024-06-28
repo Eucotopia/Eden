@@ -67,7 +67,7 @@ CREATE TABLE `comment` (
   KEY `comment_user_id_fk` (`user_id`),
   KEY `comment_id_index` (`id`),
   CONSTRAINT `comment_comment_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `comment` (`id`),
-  CONSTRAINT `comment_post_id_fk` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`),
+  CONSTRAINT `comment_post_id_fk` FOREIGN KEY (`post_id`) REFERENCES `post1` (`id`),
   CONSTRAINT `comment_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user1` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='评论表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -192,6 +192,27 @@ DROP TABLE IF EXISTS `post`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post` (
+  `id` varchar(50) DEFAULT NULL COMMENT 'id'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='post';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post`
+--
+
+LOCK TABLES `post` WRITE;
+/*!40000 ALTER TABLE `post` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post1`
+--
+
+DROP TABLE IF EXISTS `post1`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `post1` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '文章 ID',
   `title` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '文章标题',
   `content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '文章内容',
@@ -211,12 +232,12 @@ CREATE TABLE `post` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `post`
+-- Dumping data for table `post1`
 --
 
-LOCK TABLES `post` WRITE;
-/*!40000 ALTER TABLE `post` DISABLE KEYS */;
-/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+LOCK TABLES `post1` WRITE;
+/*!40000 ALTER TABLE `post1` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post1` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -235,7 +256,7 @@ CREATE TABLE `post_category` (
   KEY `post_category_category_id_fk` (`category_id`),
   KEY `post_category_post_id_fk` (`post_id`),
   CONSTRAINT `post_category_category_id_fk` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
-  CONSTRAINT `post_category_post_id_fk` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)
+  CONSTRAINT `post_category_post_id_fk` FOREIGN KEY (`post_id`) REFERENCES `post1` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='文章分类表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -265,7 +286,7 @@ CREATE TABLE `post_column` (
   KEY `post_column_column_id_fk` (`column_id`),
   KEY `post_column_post_id_fk` (`post_id`),
   CONSTRAINT `post_column_column_id_fk` FOREIGN KEY (`column_id`) REFERENCES `section` (`id`),
-  CONSTRAINT `post_column_post_id_fk` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)
+  CONSTRAINT `post_column_post_id_fk` FOREIGN KEY (`post_id`) REFERENCES `post1` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='文章_专栏表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -293,7 +314,7 @@ CREATE TABLE `post_tag` (
   PRIMARY KEY (`id`),
   KEY `post_tag_post_id_fk` (`post_id`),
   KEY `post_tag_tag_id_fk` (`tag_id`),
-  CONSTRAINT `post_tag_post_id_fk` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`),
+  CONSTRAINT `post_tag_post_id_fk` FOREIGN KEY (`post_id`) REFERENCES `post1` (`id`),
   CONSTRAINT `post_tag_tag_id_fk` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='文章标签表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -572,7 +593,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('0e5aa1ed-4322-4fb5-85ac-e1c22f6811d6','3141282040','3141282040@qq.com','$2a$10$itqMniUh0SIXQePPULSjo.MjWZJ/TB/fRjutc3JpWWlwVQEzueTzy',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-06-28 11:38:51','2024-06-28 11:38:51',NULL,'Work hard, play hard.'),('24dfc889-a9bd-47aa-96f2-c28fc6fcf192','A better tomorrow','3499508634@qq.com','$2a$10$OXwesNvsxfsX7OAAh3zNDeU0rG3zOV07SKfI5OY25Xf2PFSoUiod6',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',0,0,'2024-06-28 10:57:32','2024-06-28 12:26:07',NULL,'Work hard, play hard.'),('32dc4480-1a80-4ec8-b279-318323a75e46','john.doe','john.doe@example.com','$2a$10$An9rHFi74y9oo8FMAe8F7eiuHawA.UgWmNIlRO7vHNuYPm7kt8Hwy',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-06-28 12:27:02','2024-06-28 12:27:02',NULL,'Work hard, play hard.'),('40db71ae-54f4-4cd3-bc6a-46f5feef0a83','11111','11111@qq.com','$2a$10$tgFJmnu3nP0ISog5S44TIOyB8Jaw70ab9pjnu73uFr8xRvHy5G2LW',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',0,0,'2024-06-28 11:52:37','2024-06-28 12:24:57',NULL,'Work hard, play hard.'),('633c2094-8fdb-4edc-9591-e6e200e427a4','john1.doe','john1.doe@example.com','$2a$10$sPWyi7F2zi4dcm.nJx5g/OqHf3PvNY0znryj7NxroBrWOkjdxfeX.',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-06-28 12:28:05','2024-06-28 12:28:05',NULL,'Work hard, play hard.'),('c162fc3d-5515-4075-9ad7-7cf927b33999','314','314@qq.com','$2a$10$Ix4hkkBq9M/XOd1tV9Whmu86OA8kwNy6BrTda2XnRy/lH2uIyWtt2',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-06-28 11:37:21','2024-06-28 11:37:21',NULL,'Work hard, play hard.'),('fe20bc6f-6008-4697-adfa-a5f14f0e5fde','3141282040111111','3141282040111111@qq.com','$2a$10$/mUkZFCtgJfdiqO020ahXuxYDWR0w1HRdE1KSvbDtm79EmehPCRoK',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-06-28 11:42:03','2024-06-28 11:42:03',NULL,'Work hard, play hard.');
+INSERT INTO `user` VALUES ('0e5aa1ed-4322-4fb5-85ac-e1c22f6811d6','3141282040','3141282040@qq.com','$2a$10$itqMniUh0SIXQePPULSjo.MjWZJ/TB/fRjutc3JpWWlwVQEzueTzy',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-06-28 11:38:51','2024-06-28 11:38:51',NULL,'Work hard, play hard.'),('24dfc889-a9bd-47aa-96f2-c28fc6fcf192','A better tomorrow','3499508634@qq.com','$2a$10$OXwesNvsxfsX7OAAh3zNDeU0rG3zOV07SKfI5OY25Xf2PFSoUiod6',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',0,0,'2024-06-28 10:57:32','2024-06-28 12:26:07',NULL,'Work hard, play hard.'),('32dc4480-1a80-4ec8-b279-318323a75e46','john.doe','john.doe@example.com','$2a$10$An9rHFi74y9oo8FMAe8F7eiuHawA.UgWmNIlRO7vHNuYPm7kt8Hwy',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-06-28 12:27:02','2024-06-28 12:27:02',NULL,'Work hard, play hard.'),('40db71ae-54f4-4cd3-bc6a-46f5feef0a83','11111','11111@qq.com','$2a$10$tgFJmnu3nP0ISog5S44TIOyB8Jaw70ab9pjnu73uFr8xRvHy5G2LW',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',0,0,'2024-06-28 11:52:37','2024-06-28 12:24:57',NULL,'Work hard, play hard.'),('633c2094-8fdb-4edc-9591-e6e200e427a4','john1.doe','john1.doe@example.com','$2a$10$sPWyi7F2zi4dcm.nJx5g/OqHf3PvNY0znryj7NxroBrWOkjdxfeX.',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-06-28 12:28:05','2024-06-28 12:28:05',NULL,'Work hard, play hard.'),('adff8958-cc05-4f49-ab0e-4ffff3b596b8','314128204011111111','314128204011111111@qq.com','$2a$10$ZtK7/x1QpuxnM6xRxl3Csebo3IlNQfykrPmWXN/YSr0OybFIQhY4W',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-06-28 17:22:21','2024-06-28 17:22:21',NULL,'Work hard, play hard.'),('c162fc3d-5515-4075-9ad7-7cf927b33999','314','314@qq.com','$2a$10$Ix4hkkBq9M/XOd1tV9Whmu86OA8kwNy6BrTda2XnRy/lH2uIyWtt2',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-06-28 11:37:21','2024-06-28 11:37:21',NULL,'Work hard, play hard.'),('fe20bc6f-6008-4697-adfa-a5f14f0e5fde','3141282040111111','3141282040111111@qq.com','$2a$10$/mUkZFCtgJfdiqO020ahXuxYDWR0w1HRdE1KSvbDtm79EmehPCRoK',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-06-28 11:42:03','2024-06-28 11:42:03',NULL,'Work hard, play hard.');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -633,7 +654,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES ('32dc4480-1a80-4ec8-b279-318323a75e46','b0916501-1e3b-4d34-aa20-168d05160a52'),('40db71ae-54f4-4cd3-bc6a-46f5feef0a83','b0916501-1e3b-4d34-aa20-168d05160a52'),('633c2094-8fdb-4edc-9591-e6e200e427a4','b0916501-1e3b-4d34-aa20-168d05160a52');
+INSERT INTO `user_role` VALUES ('32dc4480-1a80-4ec8-b279-318323a75e46','b0916501-1e3b-4d34-aa20-168d05160a52'),('40db71ae-54f4-4cd3-bc6a-46f5feef0a83','b0916501-1e3b-4d34-aa20-168d05160a52'),('633c2094-8fdb-4edc-9591-e6e200e427a4','b0916501-1e3b-4d34-aa20-168d05160a52'),('adff8958-cc05-4f49-ab0e-4ffff3b596b8','b0916501-1e3b-4d34-aa20-168d05160a52');
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -646,4 +667,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-28 12:47:41
+-- Dump completed on 2024-06-28 18:07:32

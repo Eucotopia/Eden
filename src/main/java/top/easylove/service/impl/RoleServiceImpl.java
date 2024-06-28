@@ -16,6 +16,7 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public ResultResponse<String> addRole(Role role) {
+
         if (StrUtil.isEmpty(role.getName())) {
             return ResultResponse.error(ResultEnum.ERROR);
         }

@@ -1,4 +1,4 @@
-package top.easylove.common;
+package top.easylove.constant;
 
 public class ResultConstants {
     public static final String SUCCESS = "SUCCESS";
