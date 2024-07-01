@@ -1,29 +1,36 @@
 package top.easylove.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import top.easylove.pojo.Role;
 import top.easylove.service.IRoleService;
 import top.easylove.util.ResultResponse;
 
 @RestController
 @RequestMapping("/role")
+@Tag(name = "Role Controller", description = "Operations related to role management")
 public class RoleController {
     @Resource
     private IRoleService roleService;
 
+    @Operation(summary = "Add Role", description = "Add a new role")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Successfully added role"),
+            @ApiResponse(responseCode = "403", description = "Forbidden to add role")
+    })
+
+    @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
     @PostMapping
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResultResponse<String> addRole(@RequestBody Role role) {
         return roleService.addRole(role);
     }
 
-
-    @GetMapping("/test")
-//    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
-    @PreAuthorize("hasRole('ROLE_GUEST')")
-    public String get(){
-        return "123";
-    }
 }

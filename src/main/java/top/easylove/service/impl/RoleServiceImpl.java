@@ -3,6 +3,7 @@ package top.easylove.service.impl;
 import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import top.easylove.constant.ResultConstants;
 import top.easylove.enums.ResultEnum;
 import top.easylove.pojo.Role;
 import top.easylove.repository.RoleRepository;
@@ -27,6 +28,6 @@ public class RoleServiceImpl implements IRoleService {
 
         roleRepository.saveAndFlush(role);
 
-        return ResultResponse.success(ResultEnum.SUCCESS,"su");
+        return ResultResponse.success(ResultEnum.SUCCESS, ResultConstants.ROLE_ADD_SUCCESS);
     }
 }

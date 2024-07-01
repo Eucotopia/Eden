@@ -10,16 +10,20 @@ import java.util.Date;
 @Entity
 @Table(name = "permission")
 @Data
+@Schema(description = "Permission entity")
 public class Permission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Schema(description = "Unique identifier for the permission", example = "123e4567-e89b-12d3-a456-426614174000")
     private String id;
 
     @Column(name = "name")
+    @Schema(description = "Name of the permission", example = "READ_PRIVILEGE")
     private String name;
 
     @Column(name = "description")
+    @Schema(description = "Description of the permission", example = "Allows read access to resources")
     private String description;
 
     @CreatedDate

@@ -25,7 +25,6 @@ import top.easylove.filter.JwtAuthenticationFilter;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-
     @Resource
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 

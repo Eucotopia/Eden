@@ -1,13 +1,13 @@
 package top.easylove.service.impl;
 
 import jakarta.annotation.Resource;
-import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import top.easylove.pojo.Permission;
 import top.easylove.pojo.User;
 import top.easylove.repository.UserRepository;
 
@@ -43,6 +43,13 @@ public class CustomUserDetailsService implements UserDetailsService {
                     return roleAuthorities.stream();
                 })
                 .collect(Collectors.toSet());
+
+        // Add user's permissions directly to authorities
+        authorities.addAll(user.getPermissions().stream()
+                .map(permission -> new SimpleGrantedAuthority(permission.getName()))
+                .collect(Collectors.toSet()));
+
+        System.out.println(authorities);
 
         return new UserDetails() {
             @Override

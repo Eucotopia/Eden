@@ -13,10 +13,6 @@ import java.util.HashMap;
 @Configuration
 public class SwaggerConfig {
 
-    /***
-     * 构建Swagger3.0文档说明
-     * @return 返回 OpenAPI
-     */
     @Bean
     public OpenAPI customOpenAPI() {
 

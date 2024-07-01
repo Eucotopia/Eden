@@ -36,7 +36,7 @@ public class User implements Serializable {
     @Schema(description = "Username of the user", example = "john_doe")
     private String username;
 
-    @Column(name = "email", nullable = false, unique = false)
+    @Column(name = "email", nullable = false, unique = true)
     @Schema(description = "Email of the user", example = "john.doe@example.com")
     private String email;
 
@@ -107,4 +107,11 @@ public class User implements Serializable {
             )
     )
     private Set<Role> roles;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_permission",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    private Set<Permission> permissions;
+
 }
