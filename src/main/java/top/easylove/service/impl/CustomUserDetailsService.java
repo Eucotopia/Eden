@@ -35,7 +35,13 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username:" + username));
 
         Set<GrantedAuthority> authorities = user.getRoles().stream()
-                .map((role) -> new SimpleGrantedAuthority(role.getName()))
+                .flatMap(role -> {
+                    Set<GrantedAuthority> roleAuthorities = role.getPermissions().stream()
+                            .map(permission -> new SimpleGrantedAuthority(permission.getName()))
+                            .collect(Collectors.toSet());
+                    roleAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+                    return roleAuthorities.stream();
+                })
                 .collect(Collectors.toSet());
 
         return new UserDetails() {

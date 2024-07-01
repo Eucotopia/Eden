@@ -59,4 +59,10 @@ public class Role implements Serializable {
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER, mappedBy = "roles")
     private Set<User> users;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "role_permission",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    private Set<Permission> permissions;
+
 }

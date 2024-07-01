@@ -14,8 +14,16 @@ public class RoleController {
     private IRoleService roleService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResultResponse<String> addRole(@RequestBody Role role) {
         return roleService.addRole(role);
+    }
+
+
+    @GetMapping("/test")
+//    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    @PreAuthorize("hasRole('ROLE_GUEST')")
+    public String get(){
+        return "123";
     }
 }

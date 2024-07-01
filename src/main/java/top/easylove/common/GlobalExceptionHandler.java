@@ -9,17 +9,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import top.easylove.util.ResultResponse;
 import top.easylove.enums.ResultEnum;
+import top.easylove.util.ResultResponse;
 
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    /**
-     * 待修改
-     * @param e
-     * @return
-     */
+
     @ExceptionHandler(value = NullPointerException.class)
     @ResponseBody
     public ResultResponse<String> nullPointerException(NullPointerException e) {
@@ -63,4 +59,5 @@ public class GlobalExceptionHandler {
     public ResultResponse<String> handleException(Exception e) {
         return ResultResponse.error(ResultEnum.INTERNAL_SERVER_ERROR);
     }
+
 }
