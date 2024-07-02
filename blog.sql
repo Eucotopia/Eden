@@ -43,6 +43,39 @@ INSERT INTO `permission` VALUES ('e5658ca2-3755-11ef-97ac-088fc3df0a43','READ_PR
 UNLOCK TABLES;
 
 --
+-- Table structure for table `post`
+--
+
+DROP TABLE IF EXISTS `post`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `post` (
+  `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'id',
+  `title` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'title',
+  `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'content',
+  `author_id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'author_id',
+  `views` int NOT NULL COMMENT 'views',
+  `created_at` datetime NOT NULL COMMENT 'created_at',
+  `updated_at` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'updated_at',
+  `status` int NOT NULL DEFAULT '0' COMMENT '0 : published;2 : archived; 1 : draft;',
+  `likes` int NOT NULL COMMENT 'likes',
+  `reviews` int NOT NULL COMMENT 'reviews',
+  `summary` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'summary',
+  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'avatar',
+  `feature` int NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='post';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post`
+--
+
+LOCK TABLES `post` WRITE;
+/*!40000 ALTER TABLE `post` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `role`
 --
 
@@ -66,7 +99,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES ('943e3cc7-116b-4266-928e-c1329109586f','ROLE_ADMIN','2024-07-01 03:12:28','2024-07-01 03:12:28','11'),('f18cf02b-3755-11ef-97ac-088fc3df0a43','ROLE_ADMIN','2024-07-01 02:59:33','2024-07-01 02:59:33','Administrator role with full access and permissions.'),('f18cf790-3755-11ef-97ac-088fc3df0a43','ROLE_USER','2024-07-01 02:59:33','2024-07-01 02:59:33','Standard user role with limited access.'),('f18cf8a2-3755-11ef-97ac-088fc3df0a43','ROLE_MODERATOR','2024-07-01 02:59:33','2024-07-01 02:59:33','Moderator role with specific access.'),('f18cf91c-3755-11ef-97ac-088fc3df0a43','ROLE_GUEST','2024-07-01 02:59:33','2024-07-01 02:59:33','Guest role with minimal access.');
+INSERT INTO `role` VALUES ('f18cf02b-3755-11ef-97ac-088fc3df0a43','ROLE_ADMIN','2024-07-01 02:59:33','2024-07-01 02:59:33','Administrator role with full access and permissions.'),('f18cf790-3755-11ef-97ac-088fc3df0a43','ROLE_USER','2024-07-01 02:59:33','2024-07-01 02:59:33','Standard user role with limited access.'),('f18cf8a2-3755-11ef-97ac-088fc3df0a43','ROLE_MODERATOR','2024-07-01 02:59:33','2024-07-01 02:59:33','Moderator role with specific access.'),('f18cf91c-3755-11ef-97ac-088fc3df0a43','ROLE_GUEST','2024-07-01 02:59:33','2024-07-01 02:59:33','Guest role with minimal access.');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,6 +188,7 @@ CREATE TABLE `user_permission` (
 
 LOCK TABLES `user_permission` WRITE;
 /*!40000 ALTER TABLE `user_permission` DISABLE KEYS */;
+INSERT INTO `user_permission` VALUES ('988d4a11-6b43-43c4-94c6-51bef2a97d48','e5659424-3755-11ef-97ac-088fc3df0a43');
 /*!40000 ALTER TABLE `user_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,4 +228,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-01 11:34:35
+-- Dump completed on 2024-07-02  9:39:06
