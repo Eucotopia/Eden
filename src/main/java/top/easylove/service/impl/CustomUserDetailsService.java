@@ -1,12 +1,17 @@
 package top.easylove.service.impl;
 
 import jakarta.annotation.Resource;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import top.easylove.pojo.CustomUserDetails;
 import top.easylove.pojo.Permission;
 import top.easylove.pojo.User;
 import top.easylove.repository.UserRepository;
@@ -49,47 +54,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .map(permission -> new SimpleGrantedAuthority(permission.getName()))
                 .collect(Collectors.toSet()));
 
-        System.out.println(authorities);
-
-        return new UserDetails() {
-            @Override
-            public boolean isAccountNonExpired() {
-                // 如果 status 是 4，则账号已过期
-                return user.getStatus() != 4;
-            }
-
-            @Override
-            public boolean isAccountNonLocked() {
-                // 如果 status 是 3，则账号被锁定
-                return user.getStatus() != 3;
-            }
-
-            @Override
-            public boolean isCredentialsNonExpired() {
-                // 如果 status 是 4，则凭据已过期
-                return user.getStatus() != 4;
-            }
-
-            @Override
-            public boolean isEnabled() {
-                // 只有 status 是 0 时，账号才启用
-                return user.getStatus() == 0;
-            }
-
-            @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {
-                return authorities;
-            }
-
-            @Override
-            public String getPassword() {
-                return user.getPassword();
-            }
-
-            @Override
-            public String getUsername() {
-                return username;
-            }
-        };
+        return new CustomUserDetails(user, authorities);
     }
 }

@@ -1,6 +1,7 @@
 package top.easylove.common;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -9,8 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import top.easylove.enums.ResultEnum;
 import top.easylove.util.ResultResponse;
+import top.easylove.enums.ResultEnum;
 
 @ControllerAdvice
 @Slf4j
@@ -58,6 +59,13 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ResultResponse<String> handleException(Exception e) {
         return ResultResponse.error(ResultEnum.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = DataIntegrityViolationException.class)
+    @ResponseBody
+    public ResultResponse<String> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+        log.error("DataIntegrityViolationException:", e);
+        return ResultResponse.error(ResultEnum.AUTHENTICATION_FAILED);
     }
 
 }

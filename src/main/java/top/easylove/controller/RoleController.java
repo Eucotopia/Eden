@@ -18,6 +18,7 @@ import top.easylove.util.ResultResponse;
 @RequestMapping("/role")
 @Tag(name = "Role Controller", description = "Operations related to role management")
 public class RoleController {
+
     @Resource
     private IRoleService roleService;
 

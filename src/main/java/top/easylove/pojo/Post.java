@@ -43,7 +43,7 @@ public class Post {
 
     @Column(name = "views")
     @Schema(description = "Number of views the post has received", example = "100")
-    private String views;
+    private Integer views = 0;
 
     @Column(name = "created_at")
     @CreatedDate
@@ -57,15 +57,15 @@ public class Post {
 
     @Column(name = "status")
     @Schema(description = "Status of the post (0 for published, 1 for draft, 2 for archived)", example = "1")
-    private Integer status;
+    private Integer status = 0;
 
     @Column(name = "likes")
     @Schema(description = "Number of likes the post has received", example = "50")
-    private Integer likes;
+    private Integer likes = 0;
 
     @Column(name = "reviews")
     @Schema(description = "Number of reviews the post has received", example = "10")
-    private Integer reviews;
+    private Integer reviews = 0;
 
     @Column(name = "summary")
     @Schema(description = "Short summary of the post", example = "This is a brief summary of the post.")
@@ -74,8 +74,12 @@ public class Post {
     @Column(name = "avatar")
     @Schema(description = "URL of the post's avatar image", example = "https://example.com/avatar.jpg")
     private String avatar;
-
+    /**
+     * 默认：0
+     * 置顶：1
+     * 推荐：2
+     */
     @Column(name = "feature")
     @Schema(description = "Feature status of the post (1 for top, 2 for recommended, 3 for others)", example = "1")
-    private Integer feature;
+    private Integer feature = 0;
 }

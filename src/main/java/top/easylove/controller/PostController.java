@@ -9,9 +9,9 @@ import top.easylove.util.ResultResponse;
 @RestController
 @RequestMapping("/post")
 public class PostController {
+
     @Resource
     private IPostService postService;
-
 
     @PostMapping
     public ResultResponse<String> addPost(@RequestBody PostDto postDto) {

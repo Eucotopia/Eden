@@ -8,10 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.easylove.pojo.dto.AuthenticationDto;
 import top.easylove.pojo.vo.AuthenticationVO;
 import top.easylove.service.IUserService;
@@ -43,9 +40,8 @@ public class UserController {
     })
     @Parameters({@Parameter(name = "AuthenticationDto", description = "UserRegistrationDto")})
     @Operation(summary = "Register User", description = "Register User")
-    @PostMapping("/register")
+    @PostMapping
     public ResultResponse<String> registerUser(@RequestBody AuthenticationDto authenticationDto) {
         return userService.registerUser(authenticationDto);
     }
-
 }

@@ -32,9 +32,8 @@ public class JwtTokenProvider {
     }
 
     private Key key() {
-        return Keys.hmacShaKeyFor(
-                Decoders.BASE64.decode(JWT_SECRET)
-        );
+        byte[] keyBytes = Decoders.BASE64.decode(JWT_SECRET);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     // get email from Jwt token
