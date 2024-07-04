@@ -7,9 +7,9 @@ import top.easylove.constant.ResultConstants;
 @Getter
 public enum ResultEnum {
     SUCCESS(200, ResultConstants.SUCCESS),
+    ERROR(500, ResultConstants.ERROR),
     USER_REGISTER_SUCCESS(2001, ResultConstants.USER_REGISTER_SUCCESS),
     USER_LOGIN_SUCCESS(2002, ResultConstants.USER_LOGIN_SUCCESS),
-    ERROR(500, ResultConstants.ERROR),
     INVALID_EMAIL_FORMAT(4001, ResultConstants.INVALID_EMAIL_FORMAT),
     USER_NOT_FOUND(4002, ResultConstants.USER_NOT_FOUND),
     USER_EXIST(4003, ResultConstants.USER_EXIST),
