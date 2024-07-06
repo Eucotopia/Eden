@@ -7,12 +7,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import top.easylove.enums.ResultEnum;
+import top.easylove.pojo.Post;
+import top.easylove.pojo.User;
 import top.easylove.pojo.dto.AuthenticationDto;
 import top.easylove.pojo.vo.AuthenticationVO;
+import top.easylove.repository.UserRepository;
 import top.easylove.service.IUserService;
 import top.easylove.util.ResultResponse;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")

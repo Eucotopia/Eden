@@ -3,6 +3,10 @@ package top.easylove.pojo.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import top.easylove.pojo.Tag;
+
+import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -20,4 +24,6 @@ public class PostDto {
 
     @Schema(description = "URL of the avatar image for the post")
     private String avatar;
+
+    private Set<Tag> tags;
 }

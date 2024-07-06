@@ -11,9 +11,6 @@ import top.easylove.util.ResultResponse;
 
 import java.io.IOException;
 
-/**
- * 已认证但权限不足
- */
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 

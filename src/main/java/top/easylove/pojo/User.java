@@ -1,5 +1,6 @@
 package top.easylove.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -96,7 +97,7 @@ public class User implements Serializable {
                 '}';
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(
@@ -106,6 +107,7 @@ public class User implements Serializable {
                     name = "role_id", referencedColumnName = "id"
             )
     )
+    @JsonIgnoreProperties(value = { "users" })
     private Set<Role> roles;
 
     @ManyToMany(fetch = FetchType.EAGER)

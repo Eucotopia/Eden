@@ -11,9 +11,6 @@ import top.easylove.util.ResultResponse;
 
 import java.io.IOException;
 
-/**
- * 未经过身份验证
- */
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 

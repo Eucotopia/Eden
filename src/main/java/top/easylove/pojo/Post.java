@@ -1,5 +1,6 @@
 package top.easylove.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,7 +10,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "post")
@@ -17,7 +20,7 @@ import java.util.Date;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @Schema(description = "Post entity")
-public class Post {
+public class Post implements Serializable {
 
     @Transient
     public static final Long SERIAL_VERSION_UID = -6849794870754623710L;
@@ -74,6 +77,7 @@ public class Post {
     @Column(name = "avatar")
     @Schema(description = "URL of the post's avatar image", example = "https://example.com/avatar.jpg")
     private String avatar;
+
     /**
      * 默认：0
      * 置顶：1
@@ -82,4 +86,12 @@ public class Post {
     @Column(name = "feature")
     @Schema(description = "Feature status of the post (1 for top, 2 for recommended, 3 for others)", example = "1")
     private Integer feature = 0;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "post_tag",
+            joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
+    )
+    @JsonIgnoreProperties(value = { "posts" })
+    private Set<Tag> tags;
 }

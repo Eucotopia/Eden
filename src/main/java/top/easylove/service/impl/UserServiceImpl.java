@@ -2,6 +2,7 @@ package top.easylove.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -72,7 +73,9 @@ public class UserServiceImpl implements IUserService {
 
         User user = BeanUtil.copyProperties(authenticationDto, User.class);
 
-        user.setUsername(user.getEmail().split("@")[0]);
+        if (StrUtil.isBlank(user.getUsername())) {
+            user.setUsername(user.getEmail().split("@")[0]);
+        }
 
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 

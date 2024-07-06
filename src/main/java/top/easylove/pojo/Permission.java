@@ -5,13 +5,14 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @Table(name = "permission")
 @Data
 @Schema(description = "Permission entity")
-public class Permission {
+public class Permission implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

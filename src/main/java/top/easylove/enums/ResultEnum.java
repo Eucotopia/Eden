@@ -20,6 +20,8 @@ public enum ResultEnum {
     USER_ACCOUNT_EXPIRED(4005, ExceptionConstants.USER_ACCOUNT_EXPIRED),
     INVALID_CREDENTIALS(4006, ExceptionConstants.INVALID_CREDENTIALS),
     AUTHENTICATION_FAILED(4007, ExceptionConstants.AUTHENTICATION_FAILED),
+    INVALID_PARAMS(4008,"无效参数"),
+    DATABASE_ERROR(4009,"asdf"),
     INTERNAL_SERVER_ERROR(5000, "Internal server error");
 
     private final Integer code;

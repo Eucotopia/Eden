@@ -33,9 +33,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Resource
     protected UserDetailsService userDetailsService;
 
-    @Resource
-    private UserRepository userRepository;
-
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain filterChain) throws ServletException, IOException {
 
