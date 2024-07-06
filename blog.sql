@@ -62,7 +62,9 @@ CREATE TABLE `post` (
   `reviews` int NOT NULL COMMENT 'reviews',
   `summary` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'summary',
   `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'avatar',
-  `feature` int NOT NULL DEFAULT '0'
+  `feature` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `post_pk` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='post';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -72,7 +74,34 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
+INSERT INTO `post` VALUES ('c8014cfa-6c3e-4e9a-8833-dab1be6d205d','1231231231','asdqweqwe','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-06 11:21:41','2024-07-06 11:21:41.255',0,0,0,'1qweqwe','123qwewqe',0);
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post_tag`
+--
+
+DROP TABLE IF EXISTS `post_tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `post_tag` (
+  `post_id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tag_id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'tag_id',
+  KEY `post_tag_post_id_index` (`post_id`),
+  KEY `post_tag_tag_id_index` (`tag_id`),
+  CONSTRAINT `post_tag_post_id_fk` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`),
+  CONSTRAINT `post_tag_tag_id_fk` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post_tag`
+--
+
+LOCK TABLES `post_tag` WRITE;
+/*!40000 ALTER TABLE `post_tag` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post_tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -131,6 +160,36 @@ INSERT INTO `role_permission` VALUES ('f18cf02b-3755-11ef-97ac-088fc3df0a43','e5
 UNLOCK TABLES;
 
 --
+-- Table structure for table `tag`
+--
+
+DROP TABLE IF EXISTS `tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `tag` (
+  `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL COMMENT 'create_at',
+  `updated_at` datetime NOT NULL COMMENT 'updated_at',
+  `color` varchar(7) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'color',
+  `icon` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'icon',
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'name',
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'description',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tag_pk` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tag`
+--
+
+LOCK TABLES `tag` WRITE;
+/*!40000 ALTER TABLE `tag` DISABLE KEYS */;
+INSERT INTO `tag` VALUES ('080091ca-b97e-4f91-a300-cdebf75201e9','2024-07-06 08:55:46','2024-07-06 08:55:46','#FF5733','fa-laptop','Technology1','Tech related content'),('62a527e2-f615-442c-ab03-243c1392ec7f','2024-07-06 08:55:46','2024-07-06 08:55:46','#33FF57','fa-flask','Science1','Scientific discoveries and research'),('860c4764-dd39-4772-9bc5-d61f10f3e4ea','2024-07-06 09:15:46','2024-07-06 09:15:46','#33FF57','fa-flask','Science13','Scientific discoveries and research'),('942a8362-57e9-4f90-b308-503a03afc870','2024-07-06 09:48:52','2024-07-06 09:48:52','#FF5733','fa-laptop','Technology1111112','Tech related content'),('97578587-1ebb-412b-956c-236c226156e6','2024-07-06 09:15:46','2024-07-06 09:15:46','#FF5733','fa-laptop','Technology12','Tech related content'),('a3c26d43-8494-4528-b229-2308c160b020','2024-07-06 08:51:10','2024-07-06 08:51:10','#33FF57','fa-flask','Science','Scientific discoveries and research'),('b28d0985-e571-4f47-8edb-5fe1d9170295','2024-07-06 08:51:10','2024-07-06 08:51:10','#FF5733','fa-laptop','Technology','Tech related content'),('e950fc11-47e9-4d9b-b6a5-2f567b59532f','2024-07-06 09:29:38','2024-07-06 09:29:38','#33FF57','fa-flask','123123123','Scientific discoveries and research');
+/*!40000 ALTER TABLE `tag` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -161,7 +220,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('988d4a11-6b43-43c4-94c6-51bef2a97d48','3499508634','3499508634@qq.com','$2a$10$gC3PnBrMKej4smO9Kr3HM.35Bmd2BC9kG8FQ.TkDSvZuUROpSY2Ru',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,0,'2024-07-01 09:51:02','2024-07-01 09:51:21',NULL,'Work hard, play hard.');
+INSERT INTO `user` VALUES ('3fbe7b22-6f89-433e-bd11-0113465fe6ac','12321','12321@qq.com','$2a$10$y.XmNoAwJuRKvGWGbM5Kn.IK9T9z/xJ/He0uGpUdgBWDyib.36S06',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-07-06 11:16:45','2024-07-06 11:16:45',NULL,'Work hard, play hard.'),('988d4a11-6b43-43c4-94c6-51bef2a97d48','3499508634','3499508634@qq.com','$2a$10$gC3PnBrMKej4smO9Kr3HM.35Bmd2BC9kG8FQ.TkDSvZuUROpSY2Ru',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,0,'2024-07-01 09:51:02','2024-07-01 09:51:21',NULL,'Work hard, play hard.'),('a2dddae7-ca6a-42fc-8baf-d7dda0a5652e','12320001','12320001@qq.com','$2a$10$aIFLL2XOCOC8heUjxM.g9edyU193lP50xNSgeyHT5dtkMn6N2gsRW',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-07-06 11:17:09','2024-07-06 11:17:09',NULL,'Work hard, play hard.');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -215,7 +274,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES ('988d4a11-6b43-43c4-94c6-51bef2a97d48','f18cf91c-3755-11ef-97ac-088fc3df0a43');
+INSERT INTO `user_role` VALUES ('3fbe7b22-6f89-433e-bd11-0113465fe6ac','f18cf91c-3755-11ef-97ac-088fc3df0a43'),('988d4a11-6b43-43c4-94c6-51bef2a97d48','f18cf91c-3755-11ef-97ac-088fc3df0a43'),('a2dddae7-ca6a-42fc-8baf-d7dda0a5652e','f18cf91c-3755-11ef-97ac-088fc3df0a43');
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -228,4 +287,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-02  9:39:06
+-- Dump completed on 2024-07-06 11:44:22
