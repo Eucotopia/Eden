@@ -53,4 +53,5 @@ public class PostController {
             @PathVariable String id) {
         return postService.getPost(id);
     }
+
 }

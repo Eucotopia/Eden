@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import top.easylove.constant.RedisConstants;
 import top.easylove.constant.ResultConstants;
 import top.easylove.enums.ResultEnum;
 import top.easylove.pojo.Category;
@@ -23,6 +24,7 @@ import top.easylove.repository.CategoryRepository;
 import top.easylove.repository.PostRepository;
 import top.easylove.repository.TagRepository;
 import top.easylove.service.IPostService;
+import top.easylove.util.RedisUtil;
 import top.easylove.util.ResultResponse;
 
 import java.util.Objects;
@@ -32,6 +34,9 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class PostServiceImpl implements IPostService {
+
+    @Resource
+    private RedisUtil redisUtil;
 
     @Resource
     private PostRepository postRepository;
@@ -74,7 +79,7 @@ public class PostServiceImpl implements IPostService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     @Operation(summary = "Get a post by ID", description = "Retrieves a post by its unique identifier")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Post found",
@@ -92,7 +97,6 @@ public class PostServiceImpl implements IPostService {
 
         log.info("Attempting to retrieve post with ID: {}", id);
 
-        // Validate input
         if (!StringUtils.hasText(id)) {
             log.warn("Invalid post ID provided: {}", id);
             return ResultResponse.error(ResultEnum.INVALID_INPUT);
@@ -102,6 +106,12 @@ public class PostServiceImpl implements IPostService {
             return postRepository.findById(id)
                     .map(post -> {
                         log.info("Post found with ID: {}", id);
+
+                        String key = RedisConstants.POST_VIEW_KEY_PREFIX + id;
+
+                        //TODO 防止重复刷浏览量，应该通过 ip 进行防重
+                        redisUtil.increment(key);
+
                         return ResultResponse.success(ResultEnum.SUCCESS, post);
                     })
                     .orElseGet(() -> {
