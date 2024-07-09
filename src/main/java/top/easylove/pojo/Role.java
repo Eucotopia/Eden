@@ -32,7 +32,7 @@ public class Role implements Serializable {
     private String id;
 
     @Column(name = "name", nullable = false, unique = true)
-    @Schema(description = "Name of the role", example = "ADMIN", required = true)
+    @Schema(description = "Name of the role", example = "ADMIN")
     private String name;
 
     @Column(name = "description")

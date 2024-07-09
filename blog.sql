@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.3.0, for macos14.2 (arm64)
+-- MySQL dump 10.13  Distrib 8.2.0, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: blog
 -- ------------------------------------------------------
--- Server version	8.3.0
+-- Server version	8.2.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,7 +26,7 @@ CREATE TABLE `category` (
   `id` varchar(36) NOT NULL COMMENT 'id',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'created_at',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'updated_at',
-  `parent_id` varchar(36) NOT NULL COMMENT 'parent_id',
+  `parent_id` varchar(36) NOT NULL DEFAULT (`id`) COMMENT 'parent_id',
   `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'name',
   `description` varchar(255) NOT NULL COMMENT 'description',
   PRIMARY KEY (`id`),
@@ -42,8 +42,28 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES ('903190f1-cf61-4563-b6f9-df6318580891','2024-07-09 15:20:35','2024-07-09 15:20:35','903190f1-cf61-4563-b6f9-df6318580891','Jav1a','asdasd1');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `set_default_parent_id` BEFORE INSERT ON `category` FOR EACH ROW BEGIN
+    IF NEW.parent_id IS NULL THEN
+        SET NEW.parent_id = NEW.id;
+    END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `permission`
@@ -94,7 +114,8 @@ CREATE TABLE `post` (
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'avatar',
   `feature` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `post_pk` (`id`)
+  UNIQUE KEY `post_pk` (`id`),
+  UNIQUE KEY `post_pk2` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='post';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -104,7 +125,7 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
-INSERT INTO `post` VALUES ('16ec4202-8fe4-4788-9e6b-8b5c65ea7020','12','22','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-07 12:42:31','2024-07-07 12:42:30.841',0,0,0,'32','42',0),('6b4e1825-8e4e-48a5-b35a-d23a66afc103','1','2','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-07 12:40:25','2024-07-07 12:40:25.221',0,0,0,'3','4',0),('ae8901d3-7d0f-4f15-ae39-529e57356834','122','233','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-07 12:55:01','2024-07-07 12:55:00.64',0,0,0,'344','455',0),('c8014cfa-6c3e-4e9a-8833-dab1be6d205d','1231231231','asdqweqwe','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-06 11:21:41','2024-07-06 11:21:41.255',0,0,0,'1qweqwe','123qwewqe',0),('e5e7a569-c1e7-453b-870a-e5879ff065fe','1','2','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-07 12:38:39','2024-07-07 12:38:39.399',0,0,0,'3','4',0),('ef87ae56-e006-4b66-a81c-1cbd51baf4a6','122','233','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-07 12:54:56','2024-07-07 12:54:56.167',0,0,0,'344','455',0);
+INSERT INTO `post` VALUES ('053bb698-a400-4114-b91f-3aad71b48cc4','zx12','asd444123123q22244weq1e21','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-09 15:20:35','2024-07-09 15:20:35.232',0,0,0,'1qw1333e2qwe','12234414qwewqe',0),('0d6166af-efe5-4a3d-81e6-44d306ac28e4','zx','asd444q22244weqwe1','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-09 15:08:23','2024-07-09 15:08:23.446',0,0,0,'1qw333eqwe','123444qwewqe',0),('16ec4202-8fe4-4788-9e6b-8b5c65ea7020','12','22','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-07 12:42:31','2024-07-07 12:42:30.841',0,0,0,'32','42',0),('372a1dbc-9bd1-470c-974c-49beff5edcb6','zx12','asd444123123q22244weq1e21','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-09 15:33:10','2024-07-09 15:33:10.377',0,0,0,'1qw1333e2qwe','12234414qwewqe',0),('64e3567c-9f59-40ba-ae96-182cb4be5a99','zx','asd444123123q22244weqwe1','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-09 15:09:42','2024-07-09 15:09:42.274',0,0,0,'1qw333eqwe','123444qwewqe',0),('6b4e1825-8e4e-48a5-b35a-d23a66afc103','1','2','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-07 12:40:25','2024-07-07 12:40:25.221',0,0,0,'3','4',0),('93b9cf5f-ff95-441a-a8fa-61bf1af412fd','z','asd444q22244weqwe1','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-09 15:07:56','2024-07-09 15:07:56.157',0,0,0,'1qw333eqwe','123444qwewqe',0),('9ca07517-95c8-4527-8c8a-f244bc90977a','zx1','asd444123123q22244weq1e1','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-09 15:13:52','2024-07-09 15:13:51.572',0,0,0,'1qw1333eqwe','1234414qwewqe',0),('a8175f4b-6bda-452d-9ca3-dfc03f5bfdab','1233333133211131231','asd444q22244weqwe','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-09 15:07:32','2024-07-09 15:07:31.766',0,0,0,'1qw333eqwe','123444qwewqe',0),('ae8901d3-7d0f-4f15-ae39-529e57356834','122','233','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-07 12:55:01','2024-07-07 12:55:00.64',0,0,0,'344','455',0),('bb40a874-7ed1-4473-ae46-919cf5a0adc6','zx12','asd444123123q22244weq1e21','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-09 15:33:29','2024-07-09 15:33:28.585',0,0,0,'1qw1333e2qwe','12234414qwewqe',0),('c8014cfa-6c3e-4e9a-8833-dab1be6d205d','1231231231','asdqweqwe','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-06 11:21:41','2024-07-06 11:21:41.255',0,0,0,'1qweqwe','123qwewqe',0),('d0cc350c-305f-43e0-bb18-99b1d6e27bb4','zx1','asd444123123q22244weq1e1','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-09 15:19:54','2024-07-09 15:19:53.865',0,0,0,'1qw1333eqwe','1234414qwewqe',0),('e5e7a569-c1e7-453b-870a-e5879ff065fe','1','2','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-07 12:38:39','2024-07-07 12:38:39.399',0,0,0,'3','4',0),('eae8ee71-c316-49b5-aead-d8a0cbb9a077','zx','asd444123123q22244weqwe1','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-09 15:12:29','2024-07-09 15:12:28.658',0,0,0,'1qw333eqwe','123444qwewqe',0),('ee3b70b8-2b4a-4107-86b7-24874069f36c','1233333133211131231','asd444q22244weqwe','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-09 15:06:23','2024-07-09 15:06:23.211',0,0,0,'1qw333eqwe','123444qwewqe',0),('ef87ae56-e006-4b66-a81c-1cbd51baf4a6','122','233','988d4a11-6b43-43c4-94c6-51bef2a97d48',0,'2024-07-07 12:54:56','2024-07-07 12:54:56.167',0,0,0,'344','455',0);
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,12 +137,14 @@ DROP TABLE IF EXISTS `post_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post_category` (
-  `post_id` varchar(36) DEFAULT NULL COMMENT 'post_id',
-  `category_id` varchar(36) DEFAULT NULL COMMENT 'category_id',
-  KEY `post_category_category_id_index` (`category_id`),
-  KEY `post_category_post_id_index` (`post_id`),
-  CONSTRAINT `post_category_category_id_fk` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `post_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category_id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`post_id`,`category_id`),
+  KEY `post_category_post_id_fk` (`post_id`),
+  KEY `post_category_category_id_fk` (`category_id`),
+  CONSTRAINT `post_category_category_id_fk` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
+  CONSTRAINT `post_category_post_id_fk` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,6 +153,7 @@ CREATE TABLE `post_category` (
 
 LOCK TABLES `post_category` WRITE;
 /*!40000 ALTER TABLE `post_category` DISABLE KEYS */;
+INSERT INTO `post_category` VALUES ('053bb698-a400-4114-b91f-3aad71b48cc4','903190f1-cf61-4563-b6f9-df6318580891');
 /*!40000 ALTER TABLE `post_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -156,7 +180,7 @@ CREATE TABLE `post_tag` (
 
 LOCK TABLES `post_tag` WRITE;
 /*!40000 ALTER TABLE `post_tag` DISABLE KEYS */;
-INSERT INTO `post_tag` VALUES ('6b4e1825-8e4e-48a5-b35a-d23a66afc103','080091ca-b97e-4f91-a300-cdebf75201e9'),('16ec4202-8fe4-4788-9e6b-8b5c65ea7020','080091ca-b97e-4f91-a300-cdebf75201e9'),('ef87ae56-e006-4b66-a81c-1cbd51baf4a6','080091ca-b97e-4f91-a300-cdebf75201e9'),('ef87ae56-e006-4b66-a81c-1cbd51baf4a6','067ff2f4-cd87-4e45-bae3-fb16c10756b9'),('ae8901d3-7d0f-4f15-ae39-529e57356834','080091ca-b97e-4f91-a300-cdebf75201e9');
+INSERT INTO `post_tag` VALUES ('bb40a874-7ed1-4473-ae46-919cf5a0adc6','9b5cf27d-b13a-49bf-95d6-0b7bf1409ead');
 /*!40000 ALTER TABLE `post_tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +265,7 @@ CREATE TABLE `tag` (
 
 LOCK TABLES `tag` WRITE;
 /*!40000 ALTER TABLE `tag` DISABLE KEYS */;
-INSERT INTO `tag` VALUES ('067ff2f4-cd87-4e45-bae3-fb16c10756b9','2024-07-07 12:54:56','2024-07-07 12:54:56','adf','adsf','ad','ad'),('080091ca-b97e-4f91-a300-cdebf75201e9','2024-07-06 08:55:46','2024-07-06 08:55:46','#FF5733','fa-laptop','Technology1','Tech related content'),('62a527e2-f615-442c-ab03-243c1392ec7f','2024-07-06 08:55:46','2024-07-06 08:55:46','#33FF57','fa-flask','Science1','Scientific discoveries and research'),('860c4764-dd39-4772-9bc5-d61f10f3e4ea','2024-07-06 09:15:46','2024-07-06 09:15:46','#33FF57','fa-flask','Science13','Scientific discoveries and research'),('942a8362-57e9-4f90-b308-503a03afc870','2024-07-06 09:48:52','2024-07-06 09:48:52','#FF5733','fa-laptop','Technology1111112','Tech related content'),('97578587-1ebb-412b-956c-236c226156e6','2024-07-06 09:15:46','2024-07-06 09:15:46','#FF5733','fa-laptop','Technology12','Tech related content'),('a3c26d43-8494-4528-b229-2308c160b020','2024-07-06 08:51:10','2024-07-06 08:51:10','#33FF57','fa-flask','Science','Scientific discoveries and research'),('b28d0985-e571-4f47-8edb-5fe1d9170295','2024-07-06 08:51:10','2024-07-06 08:51:10','#FF5733','fa-laptop','Technology','Tech related content'),('e950fc11-47e9-4d9b-b6a5-2f567b59532f','2024-07-06 09:29:38','2024-07-06 09:29:38','#33FF57','fa-flask','123123123','Scientific discoveries and research');
+INSERT INTO `tag` VALUES ('0667411f-2447-42ca-8bd8-9dba842bc523','2024-07-09 15:08:23','2024-07-09 15:08:23','#32FF57','fa-flqask','ww','Sciqqentific discoveries and research'),('067ff2f4-cd87-4e45-bae3-fb16c10756b9','2024-07-07 12:54:56','2024-07-07 12:54:56','adf','adsf','ad','ad'),('080091ca-b97e-4f91-a300-cdebf75201e9','2024-07-06 08:55:46','2024-07-06 08:55:46','#FF5733','fa-laptop','Technology1','Tech related content'),('62a527e2-f615-442c-ab03-243c1392ec7f','2024-07-06 08:55:46','2024-07-06 08:55:46','#33FF57','fa-flask','Science1','Scientific discoveries and research'),('75e19163-c798-42ee-bd6c-4a97ad716cfe','2024-07-09 15:03:45','2024-07-09 15:03:45','#33FF57','fa-flask','1231qweqwewe12312323123','Scientific discoveries and research'),('802741a8-232e-4678-b05b-7af238d56829','2024-07-09 15:08:23','2024-07-09 15:08:23','#33FF57','fa-flask','qq','Scientific discoveries and research'),('860c4764-dd39-4772-9bc5-d61f10f3e4ea','2024-07-06 09:15:46','2024-07-06 09:15:46','#33FF57','fa-flask','Science13','Scientific discoveries and research'),('942a8362-57e9-4f90-b308-503a03afc870','2024-07-06 09:48:52','2024-07-06 09:48:52','#FF5733','fa-laptop','Technology1111112','Tech related content'),('97578587-1ebb-412b-956c-236c226156e6','2024-07-06 09:15:46','2024-07-06 09:15:46','#FF5733','fa-laptop','Technology12','Tech related content'),('97934219-9240-424d-ba66-fa514be8b2b9','2024-07-09 15:06:43','2024-07-09 15:06:43','#32FF57','fa-flqask','w','Sciqqentific discoveries and research'),('9b5cf27d-b13a-49bf-95d6-0b7bf1409ead','2024-07-09 15:13:06','2024-07-09 15:13:06','#33FF57','fa-flask','qq1','Scientific discoveries and research'),('a3c26d43-8494-4528-b229-2308c160b020','2024-07-06 08:51:10','2024-07-06 08:51:10','#33FF57','fa-flask','Science','Scientific discoveries and research'),('b28d0985-e571-4f47-8edb-5fe1d9170295','2024-07-06 08:51:10','2024-07-06 08:51:10','#FF5733','fa-laptop','Technology','Tech related content'),('b2a1075f-7331-4b91-8ad9-9bc48adf5720','2024-07-09 15:06:43','2024-07-09 15:06:43','#33FF57','fa-flask','q','Scientific discoveries and research'),('d17cf019-b6cc-4996-9623-53dc5addafce','2024-07-09 15:03:34','2024-07-09 15:03:34','#32FF57','fa-flqask','1aaa','Sciqqentific discoveries and research'),('e950fc11-47e9-4d9b-b6a5-2f567b59532f','2024-07-06 09:29:38','2024-07-06 09:29:38','#33FF57','fa-flask','123123123','Scientific discoveries and research'),('ec38c533-3c9b-4789-b579-b1737d8a1dc5','2024-07-09 15:13:16','2024-07-09 15:13:16','#32FF57','fa-flqask','ww1','Sciqqentific discoveries and research');
 /*!40000 ALTER TABLE `tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -343,4 +367,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-09  7:32:35
+-- Dump completed on 2024-07-09 15:40:21

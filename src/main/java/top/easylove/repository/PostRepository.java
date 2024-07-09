@@ -6,4 +6,5 @@ import top.easylove.pojo.Post;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, String> {
+    Boolean existsPostById(String id);
 }

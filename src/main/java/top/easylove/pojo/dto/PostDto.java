@@ -3,6 +3,7 @@ package top.easylove.pojo.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import top.easylove.pojo.Category;
 import top.easylove.pojo.Tag;
 
 import java.util.List;
@@ -26,4 +27,7 @@ public class PostDto {
     private String avatar;
 
     private Set<Tag> tags;
+
+    private Set<Category> categories;
+
 }

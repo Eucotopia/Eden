@@ -12,4 +12,6 @@ public class ResultConstants {
     public static final String ACCESS_DENIED = "Access Denied: You do not have permission to perform this action.";
     public static final String ROLE_ADD_SUCCESS = "Role added successfully.";
     public static final String POST_ADD_SUCCESS = "Post added successfully.";
+    public static final String POST_NOT_FOUND = "Post not found.";
+    public static final String INVALID_INPUT = "Invalid input provided.";
 }
