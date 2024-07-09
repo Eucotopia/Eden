@@ -33,13 +33,13 @@ public class Category implements Serializable {
     @Column(name = "name")
     @NotBlank(message = "Category name cannot be blank")
     @Size(max = 255, message = "Category name cannot exceed 255 characters")
-    @Schema(description = "Name of the category", example = "Technology", required = true)
+    @Schema(description = "Name of the category", example = "Technology")
     private String name;
 
     @Column(name = "description")
     @NotBlank(message = "Category description cannot be blank")
     @Size(max = 255, message = "Category description cannot exceed 255 characters")
-    @Schema(description = "Description of the category", example = "All posts related to technology and innovation", required = true)
+    @Schema(description = "Description of the category", example = "All posts related to technology and innovation")
     private String description;
 
     @CreatedDate
