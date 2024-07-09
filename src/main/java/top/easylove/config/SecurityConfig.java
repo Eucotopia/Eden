@@ -55,6 +55,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/user/verification-code").permitAll()
                         .anyRequest().permitAll())
                 .exceptionHandling(exceptionHandling -> {
                     exceptionHandling.authenticationEntryPoint(customAuthenticationEntryPoint);

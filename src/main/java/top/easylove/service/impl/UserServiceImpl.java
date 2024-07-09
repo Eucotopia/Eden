@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
+import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +21,7 @@ import top.easylove.pojo.vo.AuthenticationVO;
 import top.easylove.repository.RoleRepository;
 import top.easylove.repository.UserRepository;
 import top.easylove.service.IUserService;
+import top.easylove.util.EmailUtil;
 import top.easylove.util.JwtTokenProvider;
 import top.easylove.util.ResultResponse;
 
@@ -35,6 +37,9 @@ public class UserServiceImpl implements IUserService {
 
     @Resource
     private RoleRepository roleRepository;
+
+    @Resource
+    private EmailUtil emailUtil;
 
     @Resource
     private AuthenticationManager authenticationManager;
@@ -88,5 +93,12 @@ public class UserServiceImpl implements IUserService {
         userRepository.save(user);
 
         return ResultResponse.success(ResultEnum.USER_REGISTER_SUCCESS, null);
+    }
+
+    @Override
+    public ResultResponse<String> getVerificationCodeByEmail(String email) {
+        Optional<User> user = userRepository.findUserByEmail(email);
+        emailUtil.sendSimpleMessage("2278098503@qq.com", "Code", "123123");
+        return ResultResponse.error(ResultEnum.ERROR);
     }
 }

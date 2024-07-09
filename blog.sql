@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.2.0, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.3.0, for macos14.2 (arm64)
 --
 -- Host: 127.0.0.1    Database: blog
 -- ------------------------------------------------------
--- Server version	8.2.0
+-- Server version	8.3.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -300,7 +300,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('1fb9b19c-80fb-4137-8b43-8c6fe577c79b','349950128634','349950128634@qq.com','$2a$10$rh8/Z17O2efeX4yJGjHXneHlm5T15oAeJ9TdCJxjp181rvkWAbdd.',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-07-07 12:37:31','2024-07-07 12:37:31',NULL,'Work hard, play hard.'),('3fbe7b22-6f89-433e-bd11-0113465fe6ac','12321','12321@qq.com','$2a$10$y.XmNoAwJuRKvGWGbM5Kn.IK9T9z/xJ/He0uGpUdgBWDyib.36S06',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-07-06 11:16:45','2024-07-06 11:16:45',NULL,'Work hard, play hard.'),('988d4a11-6b43-43c4-94c6-51bef2a97d48','3499508634','3499508634@qq.com','$2a$10$gC3PnBrMKej4smO9Kr3HM.35Bmd2BC9kG8FQ.TkDSvZuUROpSY2Ru',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,0,'2024-07-01 09:51:02','2024-07-01 09:51:21',NULL,'Work hard, play hard.'),('a2dddae7-ca6a-42fc-8baf-d7dda0a5652e','12320001','12320001@qq.com','$2a$10$aIFLL2XOCOC8heUjxM.g9edyU193lP50xNSgeyHT5dtkMn6N2gsRW',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-07-06 11:17:09','2024-07-06 11:17:09',NULL,'Work hard, play hard.');
+INSERT INTO `user` VALUES ('0565ab45-6781-48e8-9051-716f15bf3af5','123','123@qq.com','$2a$10$0KB/hFD1CZoXgjwzJY9GMOWuRreLxJzfodNGDoiQFaHKtgNpQY/B.',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-07-09 20:07:43','2024-07-09 20:07:43',NULL,'Work hard, play hard.'),('1fb9b19c-80fb-4137-8b43-8c6fe577c79b','349950128634','349950128634@qq.com','$2a$10$rh8/Z17O2efeX4yJGjHXneHlm5T15oAeJ9TdCJxjp181rvkWAbdd.',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-07-07 12:37:31','2024-07-07 12:37:31',NULL,'Work hard, play hard.'),('24dc6a5b-98be-44d3-934d-bfd85463e8a3','123111','123111@qq.com','$2a$10$dXdaLIuf4CRIWP4LreP.1.smcuZlCc2oRdG8qjOEPMQXE4FnKitvK',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-07-09 20:08:30','2024-07-09 20:08:30',NULL,'Work hard, play hard.'),('3fbe7b22-6f89-433e-bd11-0113465fe6ac','12321','12321@qq.com','$2a$10$y.XmNoAwJuRKvGWGbM5Kn.IK9T9z/xJ/He0uGpUdgBWDyib.36S06',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-07-06 11:16:45','2024-07-06 11:16:45',NULL,'Work hard, play hard.'),('988d4a11-6b43-43c4-94c6-51bef2a97d48','3499508634','3499508634@qq.com','$2a$10$gC3PnBrMKej4smO9Kr3HM.35Bmd2BC9kG8FQ.TkDSvZuUROpSY2Ru',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,0,'2024-07-01 09:51:02','2024-07-01 09:51:21',NULL,'Work hard, play hard.'),('a2dddae7-ca6a-42fc-8baf-d7dda0a5652e','12320001','12320001@qq.com','$2a$10$aIFLL2XOCOC8heUjxM.g9edyU193lP50xNSgeyHT5dtkMn6N2gsRW',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-07-06 11:17:09','2024-07-06 11:17:09',NULL,'Work hard, play hard.'),('c07cb30d-24e2-4ef2-8e89-a51a066b7347','lw20001208','lw20001208@gmail.com','$2a$10$Q92buZwTi6Y71BW2d..3JOFzKbnTKGNx0HYxUaLX4d2Fgt7rtedVa',NULL,'https://images.pexels.com/photos/24491299/pexels-photo-24491299.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',2,2,'2024-07-09 19:58:56','2024-07-09 19:58:56',NULL,'Work hard, play hard.');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -354,7 +354,7 @@ CREATE TABLE `user_role` (
 
 LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` VALUES ('1fb9b19c-80fb-4137-8b43-8c6fe577c79b','f18cf91c-3755-11ef-97ac-088fc3df0a43'),('3fbe7b22-6f89-433e-bd11-0113465fe6ac','f18cf91c-3755-11ef-97ac-088fc3df0a43'),('988d4a11-6b43-43c4-94c6-51bef2a97d48','f18cf91c-3755-11ef-97ac-088fc3df0a43'),('a2dddae7-ca6a-42fc-8baf-d7dda0a5652e','f18cf91c-3755-11ef-97ac-088fc3df0a43');
+INSERT INTO `user_role` VALUES ('0565ab45-6781-48e8-9051-716f15bf3af5','f18cf91c-3755-11ef-97ac-088fc3df0a43'),('1fb9b19c-80fb-4137-8b43-8c6fe577c79b','f18cf91c-3755-11ef-97ac-088fc3df0a43'),('24dc6a5b-98be-44d3-934d-bfd85463e8a3','f18cf91c-3755-11ef-97ac-088fc3df0a43'),('3fbe7b22-6f89-433e-bd11-0113465fe6ac','f18cf91c-3755-11ef-97ac-088fc3df0a43'),('988d4a11-6b43-43c4-94c6-51bef2a97d48','f18cf91c-3755-11ef-97ac-088fc3df0a43'),('a2dddae7-ca6a-42fc-8baf-d7dda0a5652e','f18cf91c-3755-11ef-97ac-088fc3df0a43'),('c07cb30d-24e2-4ef2-8e89-a51a066b7347','f18cf91c-3755-11ef-97ac-088fc3df0a43');
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -367,4 +367,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-09 18:09:28
+-- Dump completed on 2024-07-09 23:42:16

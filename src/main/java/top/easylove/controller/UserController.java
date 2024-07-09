@@ -7,25 +7,22 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
-import lombok.Getter;
+import jakarta.mail.MessagingException;
+import jakarta.validation.constraints.Email;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import top.easylove.enums.ResultEnum;
-import top.easylove.pojo.Post;
 import top.easylove.pojo.User;
 import top.easylove.pojo.dto.AuthenticationDto;
 import top.easylove.pojo.vo.AuthenticationVO;
-import top.easylove.repository.UserRepository;
 import top.easylove.service.IUserService;
 import top.easylove.util.ResultResponse;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 @Slf4j
 @Tag(name = "User Controller", description = "Operations related to user management")
 public class UserController {
+
     @Resource
     private IUserService userService;
 
@@ -50,5 +47,10 @@ public class UserController {
     @PostMapping
     public ResultResponse<String> registerUser(@RequestBody AuthenticationDto authenticationDto) {
         return userService.registerUser(authenticationDto);
+    }
+
+    @PostMapping("/verification-code/{email}")
+    public ResultResponse<String> getVerificationCode(@PathVariable String email) {
+        return userService.getVerificationCodeByEmail(email);
     }
 }

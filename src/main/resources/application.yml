@@ -1,4 +1,14 @@
 spring:
+  mail:
+    host: smtp.qq.com
+    username: 3141282040@qq.com
+    password: qjrqznidizwcdeee
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable:true
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss

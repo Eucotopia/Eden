@@ -34,7 +34,6 @@ public class ScheduledTasks {
         Set<String> keys = redisUtil.keys(pattern);
 
         if (keys.isEmpty()) {
-            log.info("No post views to sync.");
             return;
         }
 
