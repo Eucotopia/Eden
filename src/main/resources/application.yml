@@ -32,8 +32,3 @@ spring:
     static-path-pattern: /**
 server:
   port: 8080
-
-jwt:
-  secret:daf66e01593f61a15b857cf433aae03a005812b31234e149036bcc8dee755dbb
-  expiration:604800000
-

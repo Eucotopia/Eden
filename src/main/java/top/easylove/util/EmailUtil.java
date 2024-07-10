@@ -3,6 +3,7 @@ package top.easylove.util;
 import jakarta.annotation.Resource;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,16 +19,19 @@ public class EmailUtil {
     @Resource
     private JavaMailSender emailSender;
 
+    @Value("${spring.mail.username}")
+    private String username;
+
     public void sendSimpleMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("3141282040@qq.com");
+        message.setFrom(username);
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
         emailSender.send(message);
     }
 
-    public void sendHtmlMessage(String to, String subject, String htmlContent)  {
+    public void sendHtmlMessage(String to, String subject, String htmlContent) {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = null;
         try {
