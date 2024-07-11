@@ -24,7 +24,9 @@ public enum ResultEnum {
     INVALID_PARAMS(4008, "无效参数"),
     DATABASE_ERROR(4009, "asdf"),
     POST_NOT_FOUND(4010, ResultConstants.POST_NOT_FOUND),
-    INVALID_INPUT(4011,ResultConstants.INVALID_INPUT),
+    INVALID_INPUT(4011, ResultConstants.INVALID_INPUT),
+    VERIFY_CODE_KEY_EXPIRED(4012, "验证码过期"),
+    INVALID_VERIFICATION_CODE(4013, "无效验证码"),
     INTERNAL_SERVER_ERROR(5000, "Internal server error");
 
     private final Integer code;

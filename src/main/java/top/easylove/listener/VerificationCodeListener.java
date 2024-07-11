@@ -26,7 +26,6 @@ public class VerificationCodeListener {
     public void messageHandler(@Payload Map<String, String> stringMap) {
         String verifyCode = stringMap.get("verifyCode");
         String email = stringMap.get("email");
-        System.out.println("email:" + email);
         emailUtil.sendSimpleMessage(email, "Verification Code", "Your verification code is: " + verifyCode);
     }
 }

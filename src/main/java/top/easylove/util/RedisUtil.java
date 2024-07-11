@@ -1,9 +1,6 @@
 package top.easylove.util;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.data.redis.core.RedisTemplate;
@@ -68,12 +65,20 @@ public class RedisUtil {
      * @param key the key
      * @return the value associated with the key, or null if the key does not exist
      */
-    public Object get(String key) {
+    public <T> Optional<T> get(String key, Class<T> clazz) {
         try {
-            return redisTemplate.opsForValue().get(key);
+            Object value = redisTemplate.opsForValue().get(key);
+            if (value == null) {
+                return Optional.empty();
+            }
+            if (clazz.isInstance(value)) {
+                return Optional.of(clazz.cast(value));
+            } else {
+                return Optional.empty();
+            }
         } catch (Exception e) {
             log.error("Error getting value for key: {}", key, e);
-            return null;
+            return Optional.empty();
         }
     }
 
@@ -89,8 +94,6 @@ public class RedisUtil {
             log.error("Error incrementing value for key: {}", key, e);
         }
     }
-
-
 
 
     /**

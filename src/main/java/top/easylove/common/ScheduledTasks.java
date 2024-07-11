@@ -40,7 +40,7 @@ public class ScheduledTasks {
         Map<String, Integer> postViewsMap = keys.stream()
                 .collect(Collectors.toMap(
                         key -> key.substring(RedisConstants.POST_VIEW_KEY_PREFIX.length()),
-                        key -> (Integer) redisUtil.get(key)
+                        key -> redisUtil.get(key, Integer.class).orElse(0)
                 ));
 
         log.error(postViewsMap.toString());

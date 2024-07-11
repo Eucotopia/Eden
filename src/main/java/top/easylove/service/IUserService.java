@@ -5,6 +5,7 @@ import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Service;
 import top.easylove.pojo.User;
 import top.easylove.pojo.dto.AuthenticationDto;
+import top.easylove.pojo.dto.UserDto;
 import top.easylove.pojo.vo.AuthenticationVO;
 import top.easylove.util.ResultResponse;
 
@@ -17,6 +18,9 @@ public interface IUserService {
     @Operation(summary = "Register User", description = "Register User")
     ResultResponse<String> registerUser(AuthenticationDto userRegistrationDto);
 
-
     ResultResponse<String> getVerificationCodeByEmail(String email) ;
+
+    ResultResponse<Boolean> verifyCode(UserDto userDto);
+
+    ResultResponse<String> resetPassword(UserDto userDto);
 }

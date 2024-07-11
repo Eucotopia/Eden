@@ -10,6 +10,7 @@ import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import top.easylove.pojo.dto.AuthenticationDto;
+import top.easylove.pojo.dto.UserDto;
 import top.easylove.pojo.vo.AuthenticationVO;
 import top.easylove.service.IUserService;
 import top.easylove.util.ResultResponse;
@@ -46,8 +47,18 @@ public class UserController {
         return userService.registerUser(authenticationDto);
     }
 
-    @PostMapping("/verification-code/{email}")
+    @PostMapping("/getVerifyCode/{email}")
     public ResultResponse<String> getVerificationCode(@PathVariable String email) {
         return userService.getVerificationCodeByEmail(email);
+    }
+
+    @PostMapping("/verifyCode")
+    public ResultResponse<Boolean> verifyCode(@RequestBody UserDto userDto){
+        return userService.verifyCode(userDto);
+    }
+
+    @PostMapping("/resetPassword")
+    public ResultResponse<String> resetPassword(@RequestBody UserDto userDto){
+        return userService.resetPassword(userDto);
     }
 }

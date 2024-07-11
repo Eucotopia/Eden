@@ -113,22 +113,54 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ResultResponse<String> getVerificationCodeByEmail(String email) {
+
         if (!Validator.isEmail(email)) {
             return ResultResponse.error(ResultEnum.INVALID_EMAIL_FORMAT);
         }
+
         if (!userRepository.existsUserByEmail(email)) {
             return ResultResponse.error(ResultEnum.USER_NOT_FOUND);
         }
 
-        String verificationCode = generateAndSendVerificationCode(email);
+        generateAndSendVerificationCode(email);
+
         return ResultResponse.success(ResultEnum.SUCCESS, "Verification code sent successfully");
     }
 
-    private String generateAndSendVerificationCode(String email) {
+    @Override
+    public ResultResponse<Boolean> verifyCode(UserDto userDto) {
+        if (!Validator.isEmail(userDto.getEmail())) {
+            return ResultResponse.error(ResultEnum.INVALID_EMAIL_FORMAT);
+        }
 
+        String storeVerifyCode = redisUtil.get(RedisConstants.VERIFY_CODE_KEY_PREFIX + userDto.getEmail(), String.class).orElse(null);
+
+        if (storeVerifyCode == null) {
+            return ResultResponse.error(ResultEnum.VERIFY_CODE_KEY_EXPIRED);
+        }
+
+        if (storeVerifyCode.equals(userDto.getVerifyCode())) {
+            redisUtil.delete(RedisConstants.VERIFY_CODE_KEY_PREFIX + userDto.getEmail());
+            return ResultResponse.success(ResultEnum.SUCCESS, Boolean.TRUE);
+        }
+
+        return ResultResponse.error(ResultEnum.INVALID_VERIFICATION_CODE);
+    }
+
+    @Override
+    public ResultResponse<String> resetPassword(UserDto userDto) {
+
+        return null;
+    }
+
+    private void generateAndSendVerificationCode(String email) {
+
+        // 随机生成验证码
         String verifyCode = RandomUtil.randomNumbers(6);
 
+        // 设置 redis key
         redisUtil.set(RedisConstants.VERIFY_CODE_KEY_PREFIX + email, verifyCode, 5, TimeUnit.MINUTES);
+
 
         Map<String, String> message = new HashMap<>();
         message.put("email", email);
@@ -138,6 +170,5 @@ public class UserServiceImpl implements IUserService {
 
         emailUtil.sendSimpleMessage(email, "Verification Code", "Your verification code is: " + verifyCode);
 
-        return verifyCode;
     }
 }

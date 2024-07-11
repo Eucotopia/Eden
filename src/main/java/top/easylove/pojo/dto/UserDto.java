@@ -22,4 +22,7 @@ public class UserDto implements Serializable {
     @Schema(description = "Email of the user", example = "john.doe@example.com")
     private String email;
 
+    @Schema(description = "verifyCode for reset password", example = "117155")
+    private String verifyCode;
+
 }
