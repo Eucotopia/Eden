@@ -12,6 +12,8 @@ import top.easylove.pojo.Post;
 import top.easylove.pojo.dto.PostDto;
 import top.easylove.util.ResultResponse;
 
+import java.util.List;
+
 @Service
 @Tag(name = "Post Service", description = "API for managing blog posts")
 public interface IPostService {
@@ -39,4 +41,7 @@ public interface IPostService {
     })
     ResultResponse<Post> getPost(
             @Parameter(description = "ID of the post to retrieve", required = true) String id);
+
+
+    ResultResponse<List<Post>> getRecentPosts();
 }

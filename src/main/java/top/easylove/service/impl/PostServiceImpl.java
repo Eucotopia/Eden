@@ -10,6 +10,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -27,7 +30,9 @@ import top.easylove.service.IPostService;
 import top.easylove.util.RedisUtil;
 import top.easylove.util.ResultResponse;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -123,6 +128,24 @@ public class PostServiceImpl implements IPostService {
             return ResultResponse.error(ResultEnum.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Override
+    public ResultResponse<List<Post>> getRecentPosts() {
+        try {
+            Pageable pageable = PageRequest.of(0, 6, Sort.by(Sort.Direction.DESC, "createdAt"));
+            List<Post> recentPosts = postRepository.findAll(pageable).getContent();
+
+            if (recentPosts.isEmpty()) {
+                return ResultResponse.error(ResultEnum.ERROR);
+            }
+
+            return ResultResponse.success(ResultEnum.SUCCESS, recentPosts);
+        } catch (Exception e) {
+            log.error("Error fetching recent posts", e);
+            return ResultResponse.error(ResultEnum.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
     private Tag createNewTag(Tag tag) {
 

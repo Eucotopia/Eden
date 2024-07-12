@@ -24,6 +24,7 @@ spring:
       database: 0
   jpa:
     show-sql: true
+    open-in-view: false
   servlet:
     multipart:
       max-file-size: 10MB

@@ -14,6 +14,8 @@ import top.easylove.pojo.dto.PostDto;
 import top.easylove.service.IPostService;
 import top.easylove.util.ResultResponse;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/post")
 @Tag(name = "Post Controller", description = "API endpoints for managing blog posts")
@@ -52,6 +54,11 @@ public class PostController {
             @Parameter(description = "ID of the post to retrieve", required = true, example = "123e4567-e89b-12d3-a456-426614174000")
             @PathVariable String id) {
         return postService.getPost(id);
+    }
+
+    @GetMapping("/recent")
+    public ResultResponse<List<Post>> getRecentPost() {
+        return postService.getRecentPosts();
     }
 
 }
