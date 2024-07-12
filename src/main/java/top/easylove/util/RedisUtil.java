@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import top.easylove.constant.RedisConstants;
 
 /**
  * Utility class for Redis operations.
@@ -132,14 +131,12 @@ public class RedisUtil {
      * Delete a key from Redis.
      *
      * @param key the key to delete
-     * @return true if successful, false otherwise
      */
-    public boolean delete(String key) {
+    public void delete(String key) {
         try {
-            return Boolean.TRUE.equals(redisTemplate.delete(key));
+            redisTemplate.delete(key);
         } catch (Exception e) {
             log.error("Error deleting key: {}", key, e);
-            return false;
         }
     }
 
@@ -147,15 +144,12 @@ public class RedisUtil {
      * Delete multiple keys from Redis.
      *
      * @param keys the collection of keys to delete
-     * @return the number of keys that were deleted
      */
-    public long delete(Collection<String> keys) {
+    public void delete(Collection<String> keys) {
         try {
             Long count = redisTemplate.delete(keys);
-            return count != null ? count : 0;
         } catch (Exception e) {
             log.error("Error deleting multiple keys", e);
-            return 0;
         }
     }
 

@@ -49,6 +49,12 @@ public class TagController {
     }
 
     @GetMapping
+    @Operation(summary = "Get all tags", description = "Retrieve a list of all tags in the system")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved tags",
+                    content = @Content(schema = @Schema(implementation = ResultResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResultResponse<List<Tag>> getTags() {
         return tagService.getTags();
     }

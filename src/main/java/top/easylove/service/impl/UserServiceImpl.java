@@ -157,7 +157,7 @@ public class UserServiceImpl implements IUserService {
         if (!Validator.isEmail(userDto.getEmail())) {
             return ResultResponse.error(ResultEnum.INVALID_EMAIL_FORMAT);
         }
-
+        
         if (storeVerifyCode == null) {
             return ResultResponse.error(ResultEnum.VERIFY_CODE_KEY_EXPIRED);
         }
