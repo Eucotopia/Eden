@@ -53,12 +53,12 @@ public class UserController {
     }
 
     @PostMapping("/verifyCode")
-    public ResultResponse<Boolean> verifyCode(@RequestBody UserDto userDto){
+    public ResultResponse<Boolean> verifyCode(@RequestBody UserDto userDto) {
         return userService.verifyCode(userDto);
     }
 
     @PostMapping("/resetPassword")
-    public ResultResponse<String> resetPassword(@RequestBody UserDto userDto){
+    public ResultResponse<String> resetPassword(@RequestBody UserDto userDto) {
         return userService.resetPassword(userDto);
     }
 }

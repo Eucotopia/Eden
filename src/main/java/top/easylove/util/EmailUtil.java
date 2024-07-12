@@ -36,7 +36,7 @@ public class EmailUtil {
         MimeMessageHelper helper = null;
         try {
             helper = new MimeMessageHelper(message, true, "UTF-8");
-            helper.setFrom("noreply@yourdomain.com");
+            helper.setFrom(username);
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(htmlContent, true);
@@ -49,7 +49,7 @@ public class EmailUtil {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-        helper.setFrom("noreply@yourdomain.com");
+        helper.setFrom(username);
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(text);

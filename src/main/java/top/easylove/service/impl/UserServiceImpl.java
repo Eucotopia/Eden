@@ -5,15 +5,17 @@ import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
-import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.easylove.constant.RabbitMQConstants;
 import top.easylove.constant.RedisConstants;
 import top.easylove.constant.RoleConstants;
@@ -35,7 +37,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -140,7 +141,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         if (storeVerifyCode.equals(userDto.getVerifyCode())) {
-            redisUtil.delete(RedisConstants.VERIFY_CODE_KEY_PREFIX + userDto.getEmail());
+
             return ResultResponse.success(ResultEnum.SUCCESS, Boolean.TRUE);
         }
 
@@ -148,18 +149,42 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    @Transactional
     public ResultResponse<String> resetPassword(UserDto userDto) {
 
-        return null;
+        String storeVerifyCode = redisUtil.get(RedisConstants.VERIFY_CODE_KEY_PREFIX + userDto.getEmail(), String.class).orElse(null);
+
+        if (!Validator.isEmail(userDto.getEmail())) {
+            return ResultResponse.error(ResultEnum.INVALID_EMAIL_FORMAT);
+        }
+
+        if (storeVerifyCode == null) {
+            return ResultResponse.error(ResultEnum.VERIFY_CODE_KEY_EXPIRED);
+        }
+
+        if (storeVerifyCode.equals(userDto.getVerifyCode())) {
+
+            redisUtil.delete(RedisConstants.VERIFY_CODE_KEY_PREFIX + userDto.getEmail());
+            // 执行修改密码
+            User user = userRepository.findUserByEmail(userDto.getEmail()).orElseThrow(() -> new UsernameNotFoundException(ResultEnum.USER_NOT_FOUND.getMessage()));
+
+            user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+
+            userRepository.save(user);
+
+            return ResultResponse.success(ResultEnum.SUCCESS, "修改密码成功");
+        }
+        return ResultResponse.error(ResultEnum.ERROR);
     }
 
-    private void generateAndSendVerificationCode(String email) {
+    @Async
+    protected void generateAndSendVerificationCode(String email) {
 
         // 随机生成验证码
         String verifyCode = RandomUtil.randomNumbers(6);
 
         // 设置 redis key
-        redisUtil.set(RedisConstants.VERIFY_CODE_KEY_PREFIX + email, verifyCode, 5, TimeUnit.MINUTES);
+        redisUtil.set(RedisConstants.VERIFY_CODE_KEY_PREFIX + email, verifyCode, 10, TimeUnit.MINUTES);
 
 
         Map<String, String> message = new HashMap<>();
