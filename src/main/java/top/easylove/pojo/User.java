@@ -3,6 +3,7 @@ package top.easylove.pojo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -20,6 +21,7 @@ import java.util.Set;
 @Entity
 @Setter
 @Getter
+@Data
 @EntityListeners(AuditingEntityListener.class)
 @Schema(description = "User entity")
 public class User implements Serializable {
@@ -78,24 +80,6 @@ public class User implements Serializable {
     @Column(name = "motto")
     @Schema(description = "Motto or personal slogan of the user", example = "Work hard, play hard.")
     private String motto = "Work hard, play hard.";
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", gender=" + gender +
-                ", status=" + status +
-                ", createAt=" + createAt +
-                ", update_at=" + update_at +
-                ", birthDate=" + birthDate +
-                ", motto='" + motto + '\'' +
-                '}';
-    }
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(

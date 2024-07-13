@@ -8,8 +8,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import top.easylove.common.WebSocket;
 import top.easylove.pojo.dto.AuthenticationDto;
 import top.easylove.pojo.dto.UserDto;
 import top.easylove.pojo.vo.AuthenticationVO;
@@ -24,6 +26,9 @@ public class UserController {
 
     @Resource
     private IUserService userService;
+
+    @Resource
+    private WebSocket webSocket;
 
     @Operation(summary = "Authenticate User", description = "Authenticate user login")
     @ApiResponses(value = {
@@ -98,5 +103,16 @@ public class UserController {
             @Parameter(description = "User details for password reset", required = true)
             @RequestBody UserDto userDto) {
         return userService.resetPassword(userDto);
+    }
+
+    @GetMapping("/send")
+    public String sendMessge(String userId, String message) {
+        try {
+            webSocket.sendMessage("asdsd");
+            webSocket.sendMessageByUserId(userId, message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "asd";
     }
 }

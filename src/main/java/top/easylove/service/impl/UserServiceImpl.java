@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.easylove.constant.RabbitMQConstants;
@@ -54,6 +55,9 @@ public class UserServiceImpl implements IUserService {
 
     @Resource
     private RoleRepository roleRepository;
+
+    @Resource
+    private PasswordEncoder passwordEncoder;
 
     @Resource
     private EmailUtil emailUtil;
@@ -99,7 +103,7 @@ public class UserServiceImpl implements IUserService {
             user.setUsername(user.getEmail().split("@")[0]);
         }
 
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         Optional<Role> role = roleRepository.findRoleByName(RoleConstants.GUEST);
 
@@ -108,6 +112,8 @@ public class UserServiceImpl implements IUserService {
         }
 
         userRepository.save(user);
+
+        rabbitTemplate.convertAndSend(RabbitMQConstants.USER_REGISTRATION_QUEUE, user);
 
         return ResultResponse.success(ResultEnum.USER_REGISTER_SUCCESS, null);
     }
@@ -157,7 +163,7 @@ public class UserServiceImpl implements IUserService {
         if (!Validator.isEmail(userDto.getEmail())) {
             return ResultResponse.error(ResultEnum.INVALID_EMAIL_FORMAT);
         }
-        
+
         if (storeVerifyCode == null) {
             return ResultResponse.error(ResultEnum.VERIFY_CODE_KEY_EXPIRED);
         }
