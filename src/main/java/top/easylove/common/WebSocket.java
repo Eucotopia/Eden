@@ -10,6 +10,9 @@ import top.easylove.config.WebSocketConfig;
 
 import java.io.IOException;
 
+/**
+ * 这个 socket 只是在做推送，例如注册用户需要管理员审批等
+ */
 @ServerEndpoint(value = "/websocket/{userId}")
 @Component
 @Slf4j
@@ -18,7 +21,6 @@ public class WebSocket {
     @Resource
     private WebSocketManager webSocketManager;
 
-    private static int onlineCount = 0;
     private Session session;
     private String userId;
 
@@ -27,12 +29,11 @@ public class WebSocket {
     public void onOpen(Session session, @PathParam("userId") String userId) {
         this.session = session;
         this.userId = userId;
-        log.info("userId" + userId);
+        log.info("socket connected : {}", userId);
         if (webSocketManager == null) {
             webSocketManager = WebSocketConfig.getBean(WebSocketManager.class);
         }
         webSocketManager.addWebSocket(userId, this);
-        addOnlineCount();
         try {
             sendMessage(String.valueOf(this.session.getQueryString()));
         } catch (IOException e) {
@@ -43,7 +44,6 @@ public class WebSocket {
     @OnClose
     public void onClose() {
         webSocketManager.removeWebSocket(userId);
-        subOnlineCount();
     }
 
 //    @OnMessage
@@ -64,6 +64,7 @@ public class WebSocket {
     }
 
     public void sendMessageByUserId(String userId, String message) throws IOException {
+        log.info("接受的用户:{}",userId);
         webSocketManager.sendMessageByUserId(userId, message);
     }
 
@@ -72,16 +73,4 @@ public class WebSocket {
 //            webSocketConcurrentReferenceHashMap.get(s).sendMessage(message);
 //        }
 //    }
-
-    public static synchronized int getOnlineCount() {
-        return onlineCount;
-    }
-
-    public static synchronized void addOnlineCount() {
-        WebSocket.onlineCount++;
-    }
-
-    public static synchronized void subOnlineCount() {
-        WebSocket.onlineCount--;
-    }
 }

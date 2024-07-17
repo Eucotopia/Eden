@@ -1,6 +1,7 @@
 package top.easylove.common;
 
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ConcurrentReferenceHashMap;
 
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class WebSocketManager {
 
     private final ConcurrentReferenceHashMap<String, WebSocket> webSocketMap = new ConcurrentReferenceHashMap<>();

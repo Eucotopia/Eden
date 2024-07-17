@@ -27,8 +27,7 @@ public class UserController {
     @Resource
     private IUserService userService;
 
-    @Resource
-    private WebSocket webSocket;
+
 
     @Operation(summary = "Authenticate User", description = "Authenticate user login")
     @ApiResponses(value = {
@@ -105,14 +104,4 @@ public class UserController {
         return userService.resetPassword(userDto);
     }
 
-    @GetMapping("/send")
-    public String sendMessge(String userId, String message) {
-        try {
-            webSocket.sendMessage("asdsd");
-            webSocket.sendMessageByUserId(userId, message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "asd";
-    }
 }

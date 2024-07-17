@@ -83,7 +83,7 @@ public class UserServiceImpl implements IUserService {
 
         String authorization = jwtTokenProvider.generateToken(authentication);
 
-        return ResultResponse.success(ResultEnum.USER_LOGIN_SUCCESS, new AuthenticationVO(user.getUsername(), user.getEmail(), authorization, user.getAvatar()));
+        return ResultResponse.success(ResultEnum.USER_LOGIN_SUCCESS, new AuthenticationVO(user.getId(), user.getUsername(), user.getEmail(), authorization, user.getAvatar()));
     }
 
     @Override

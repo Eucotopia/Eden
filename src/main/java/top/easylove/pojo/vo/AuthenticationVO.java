@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Schema(description = "Authentication VO")
 public class AuthenticationVO {
+    @Schema(description = "uid of the user", example = "123e4567-e89b-12d3-a456-426614174000")
+    private String uid;
 
     @Schema(description = "Username of the user", example = "john.doe")
     private String username;
