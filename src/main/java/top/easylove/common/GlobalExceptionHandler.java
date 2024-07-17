@@ -34,30 +34,35 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = DisabledException.class)
     @ResponseBody
     public ResultResponse<String> handleDisabledException(DisabledException e) {
+        log.error("DisabledException:", e);
         return ResultResponse.error(ResultEnum.USER_DISABLED);
     }
 
     @ExceptionHandler(value = AccountExpiredException.class)
     @ResponseBody
     public ResultResponse<String> handleAccountExpiredException(AccountExpiredException e) {
+        log.error("AccountExpiredException:", e);
         return ResultResponse.error(ResultEnum.USER_ACCOUNT_EXPIRED);
     }
 
     @ExceptionHandler(value = BadCredentialsException.class)
     @ResponseBody
     public ResultResponse<String> handleBadCredentialsException(BadCredentialsException e) {
+        log.error("BadCredentialsException:", e);
         return ResultResponse.error(ResultEnum.INVALID_CREDENTIALS);
     }
 
     @ExceptionHandler(value = AuthenticationException.class)
     @ResponseBody
     public ResultResponse<String> handleAuthenticationException(AuthenticationException e) {
+        log.error("AuthenticationException:", e);
         return ResultResponse.error(ResultEnum.AUTHENTICATION_FAILED);
     }
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public ResultResponse<String> handleException(Exception e) {
+        log.error("Exception:", e);
         return ResultResponse.error(ResultEnum.INTERNAL_SERVER_ERROR);
     }
 

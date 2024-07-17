@@ -3,6 +3,8 @@ package top.easylove.util;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.json.JSONUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -236,4 +238,60 @@ public class RedisUtil {
             return Set.of();
         }
     }
+
+
+    /**
+     * 向 Redis 中追加 Set 类型数据。
+     *
+     * @param key    键名
+     * @param values 要追加的值集合
+     * @param <T>    值的类型
+     */
+    public <T> void appendToSet(String key, Set<T> values) {
+        try {
+            // 判断 key 是否存在，如果不存在，则直接添加
+            if (Boolean.FALSE.equals(redisTemplate.hasKey(key))) {
+                redisTemplate.opsForSet().add(key, values.toArray());
+            } else {
+                // 如果 key 存在，则将新的值追加到现有的 Set 中
+                for (T value : values) {
+                    redisTemplate.opsForSet().add(key, value);
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error appending values to set: {}", key, e);
+        }
+    }
+
+
+    /**
+     * 获取 Redis 中存储的 Set 类型数据。
+     *
+     * @param key  键名
+     * @param type 集合中元素的类型
+     * @param <T>  集合中元素的类型
+     * @return 存储在 Redis 中的 Set 数据
+     */
+    public <T> Set<T> getSet(String key, Class<T> type) {
+        try {
+
+            Set<?> rawSet = redisTemplate.opsForSet().members(key);
+            if (rawSet == null) {
+                return null;
+            }
+
+            Set<T> typedSet = new HashSet<>();
+            for (Object element : rawSet) {
+                if (type.isInstance(element)) {
+                    typedSet.add(type.cast(element));
+                } else {
+                    return null;
+                }
+            }
+            return typedSet;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

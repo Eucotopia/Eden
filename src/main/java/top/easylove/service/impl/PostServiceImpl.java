@@ -169,7 +169,6 @@ public class PostServiceImpl implements IPostService {
             log.warn("Incomplete tag data: {}", category);
             return null;
         }
-
         try {
             log.info("Creating new category: {}", category);
             return categoryRepository.save(category);

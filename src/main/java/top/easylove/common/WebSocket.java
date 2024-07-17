@@ -1,39 +1,45 @@
 package top.easylove.common;
 
+import cn.hutool.json.JSONUtil;
 import jakarta.annotation.Resource;
-import jakarta.websocket.*;
+import jakarta.websocket.OnClose;
+import jakarta.websocket.OnError;
+import jakarta.websocket.OnOpen;
+import jakarta.websocket.Session;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import top.easylove.config.WebSocketConfig;
+import top.easylove.pojo.MessageType;
+import top.easylove.util.WebSocketUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
-/**
- * 这个 socket 只是在做推送，例如注册用户需要管理员审批等
- */
-@ServerEndpoint(value = "/websocket/{userId}")
+@ServerEndpoint(value = "/websocket/{uid}")
 @Component
 @Slf4j
 public class WebSocket {
 
     @Resource
-    private WebSocketManager webSocketManager;
+    private WebSocketUtil webSocketUtil;
 
     private Session session;
-    private String userId;
+    private String uid;
 
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("userId") String userId) {
+    public void onOpen(Session session, @PathParam("uid") String uid) {
         this.session = session;
-        this.userId = userId;
-        log.info("socket connected : {}", userId);
-        if (webSocketManager == null) {
-            webSocketManager = WebSocketConfig.getBean(WebSocketManager.class);
+        this.uid = uid;
+        log.info("socket connected : {}", uid);
+        if (webSocketUtil == null) {
+            webSocketUtil = WebSocketConfig.getBean(WebSocketUtil.class);
         }
-        webSocketManager.addWebSocket(userId, this);
+        webSocketUtil.addWebSocket(uid, this);
         try {
             sendMessage(String.valueOf(this.session.getQueryString()));
         } catch (IOException e) {
@@ -43,7 +49,7 @@ public class WebSocket {
 
     @OnClose
     public void onClose() {
-        webSocketManager.removeWebSocket(userId);
+        webSocketUtil.removeWebSocket(uid);
     }
 
 //    @OnMessage
@@ -60,17 +66,20 @@ public class WebSocket {
 
     public void sendMessage(String message) throws IOException {
         this.session.getBasicRemote().sendText(message);
-        log.info("发送消息" + message);
+        log.info("发送消息{}", message);
     }
 
-    public void sendMessageByUserId(String userId, String message) throws IOException {
-        log.info("接受的用户:{}",userId);
-        webSocketManager.sendMessageByUserId(userId, message);
+    public void sendMessage(String uid, String message) throws IOException {
+        log.info("接受的用户:{}", uid);
     }
 
-//    public void sendInfo(String message) throws IOException {
-//        for (String s : webSocketConcurrentReferenceHashMap.keySet()) {
-//            webSocketConcurrentReferenceHashMap.get(s).sendMessage(message);
-//        }
-//    }
+    public <T> void sendMessage(Set<T> values) throws IOException {
+        log.info("接受的用户:{}", values);
+        List<MessageType> messageTypes = new ArrayList<MessageType>();
+        for (T value : values) {
+            messageTypes.add(new MessageType("1", value.toString(),"1","1","1"));
+        }
+        this.session.getBasicRemote().sendText(JSONUtil.toJsonStr(messageTypes));
+    }
+
 }

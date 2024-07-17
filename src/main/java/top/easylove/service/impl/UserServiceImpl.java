@@ -4,6 +4,8 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONConfig;
+import cn.hutool.json.JSONUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -113,7 +115,9 @@ public class UserServiceImpl implements IUserService {
 
         userRepository.save(user);
 
-        rabbitTemplate.convertAndSend(RabbitMQConstants.USER_REGISTRATION_QUEUE, user);
+        UserDto userDto = BeanUtil.copyProperties(user, UserDto.class);
+
+        rabbitTemplate.convertAndSend(RabbitMQConstants.USER_REGISTRATION_QUEUE, userDto);
 
         return ResultResponse.success(ResultEnum.USER_REGISTER_SUCCESS, null);
     }
