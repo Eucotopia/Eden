@@ -27,8 +27,6 @@ public class UserController {
     @Resource
     private IUserService userService;
 
-
-
     @Operation(summary = "Authenticate User", description = "Authenticate user login")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully authenticated",

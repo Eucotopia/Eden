@@ -28,15 +28,6 @@ public class SocketServiceImpl implements ISocketService {
     public ResultResponse<List<MessageType>> getUnapprovedUsers() {
         rabbitTemplate.convertAndSend(RabbitMQConstants.USER_REGISTRATION_QUEUE, new UserDto());
         List<MessageType> messageTypes = new ArrayList<MessageType>();
-        MessageType messageType = new MessageType("1","1","1","1","1");
-        MessageType messageType1 = new MessageType("1","1","1","1","1");
-        MessageType messageType2 = new MessageType("1","1","1","1","1");
-        MessageType messageType3 = new MessageType("1","1","1","1","1");
-        messageTypes.add(messageType);
-        messageTypes.add(messageType1);
-        messageTypes.add(messageType2);
-        messageTypes.add(messageType3);
-
         return ResultResponse.success(ResultEnum.SUCCESS,messageTypes);
     }
 }

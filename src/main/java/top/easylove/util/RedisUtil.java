@@ -294,4 +294,82 @@ public class RedisUtil {
         }
     }
 
+    /**
+     * 向 Redis 中的 List 添加元素。
+     *
+     * @param key   键名
+     * @param value 要添加的值
+     * @param <T>   值的类型
+     */
+    public <T> void addToList(String key, T value) {
+        try {
+            redisTemplate.opsForList().rightPush(key, value);
+        } catch (Exception e) {
+            log.error("Error adding value to list: {}", key, e);
+        }
+    }
+
+    /**
+     * 向 Redis 中的 List 批量添加元素。
+     *
+     * @param key    键名
+     * @param values 要添加的值列表
+     * @param <T>    值的类型
+     */
+    public <T> void addAllToList(String key, List<T> values) {
+        try {
+            redisTemplate.opsForList().rightPushAll(key, values);
+        } catch (Exception e) {
+            log.error("Error adding multiple values to list: {}", key, e);
+        }
+    }
+
+    /**
+     * 获取 Redis 中存储的 List 类型数据。
+     *
+     * @param key  键名
+     * @param type 列表中元素的类型
+     * @param <T>  列表中元素的类型
+     * @return 存储在 Redis 中的 List 数据
+     */
+    public <T> List<T> getList(String key, Class<T> type) {
+        try {
+            List<?> rawList = redisTemplate.opsForList().range(key, 0, -1);
+            if (rawList == null) {
+                return null;
+            }
+
+            List<T> typedList = new ArrayList<>();
+            for (Object element : rawList) {
+                if (type.isInstance(element)) {
+                    typedList.add(type.cast(element));
+                } else {
+                    // 如果元素类型不匹配，你可以选择跳过、返回 null 或抛出异常
+                    return null;
+                }
+            }
+            return typedList;
+        } catch (Exception e) {
+            log.error("Error getting list: {}", key, e);
+            return null;
+        }
+    }
+
+    /**
+     * 从 Redis 中的 List 移除指定的元素。
+     *
+     * @param key   键名
+     * @param count 要移除的元素个数（0 表示移除所有匹配的元素）
+     * @param value 要移除的元素值
+     * @param <T>   值的类型
+     * @return 被移除的元素个数
+     */
+    public <T> Long removeFromList(String key, long count, T value) {
+        try {
+            return redisTemplate.opsForList().remove(key, count, value);
+        } catch (Exception e) {
+            log.error("Error removing value from list: {}", key, e);
+            return 0L;
+        }
+    }
 }

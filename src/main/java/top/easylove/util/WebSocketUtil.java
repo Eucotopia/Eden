@@ -1,17 +1,18 @@
 package top.easylove.util;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ConcurrentReferenceHashMap;
 import top.easylove.common.WebSocket;
 import top.easylove.constant.RedisConstants;
+import top.easylove.pojo.MessageType;
 import top.easylove.pojo.dto.UserDto;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
@@ -44,16 +45,27 @@ public class WebSocketUtil {
 
     public void getUnapprovedUsers(String uid) {
         String key = RedisConstants.PENDING_USER_KEY_PREFIX;
-        Set<UserDto> userDtoSet = redisUtil.getSet(key, UserDto.class);
-        log.info("getUnapprovedUsers userDtoSet: {}", userDtoSet);
+        List<UserDto> userDtoList = redisUtil.getList(key, UserDto.class);
+        log.info("getUnapprovedUsers userDtoSet: {}", userDtoList);
         try {
             if (StrUtil.isNotBlank(uid) && webSocketMap.containsKey(uid)) {
-                webSocketMap.get(uid).sendMessage(userDtoSet);
+                log.info("afdasfsdfaf");
+                List<MessageType> messages = new ArrayList<>();
+                for (UserDto userDto : userDtoList) {
+                    MessageType message = new MessageType(
+                            "ADMIN_NOTIFICATION",
+                            JSONUtil.toJsonStr(userDto),  // 将 UserDto 转换为 JSON 字符串
+                            "system",
+                            uid,
+                            "admin_notification"
+                    );
+                    messages.add(message);
+                }
+                webSocketMap.get(uid).sendMessage(messages);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error sending unapproved users to user " + uid, e);
         }
-
     }
 
     public void broadcastMessage(String message) {

@@ -61,7 +61,8 @@ public class AdminNotificationConsumer {
 
         if (BeanUtil.isNotEmpty(userDto)) {
             String key = RedisConstants.PENDING_USER_KEY_PREFIX;
-            redisUtil.appendToSet(key, CollectionUtil.newHashSet(userDto));
+            redisUtil.addToList(key, userDto);
+//            redisUtil.appendToSet(key, CollectionUtil.newHashSet(userDto));
         }
 
         Set<Role> roles = roleRepository.findRolesByName(RoleConstants.ADMIN).orElse(null);

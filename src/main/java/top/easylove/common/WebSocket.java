@@ -73,13 +73,9 @@ public class WebSocket {
         log.info("接受的用户:{}", uid);
     }
 
-    public <T> void sendMessage(Set<T> values) throws IOException {
+    public <T> void sendMessage(List<T> values) throws IOException {
         log.info("接受的用户:{}", values);
-        List<MessageType> messageTypes = new ArrayList<MessageType>();
-        for (T value : values) {
-            messageTypes.add(new MessageType("1", value.toString(),"1","1","1"));
-        }
-        this.session.getBasicRemote().sendText(JSONUtil.toJsonStr(messageTypes));
+        this.session.getBasicRemote().sendText(JSONUtil.toJsonStr(values));
     }
 
 }
