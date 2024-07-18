@@ -10,6 +10,7 @@ import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import top.easylove.config.WebSocketConfig;
 import top.easylove.pojo.MessageType;
 import top.easylove.util.WebSocketUtil;

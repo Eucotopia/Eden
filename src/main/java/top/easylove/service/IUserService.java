@@ -23,4 +23,6 @@ public interface IUserService {
     ResultResponse<Boolean> verifyCode(UserDto userDto);
 
     ResultResponse<String> resetPassword(UserDto userDto);
+
+    ResultResponse<User> getUser(String uid);
 }

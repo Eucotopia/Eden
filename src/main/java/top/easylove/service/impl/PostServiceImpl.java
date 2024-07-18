@@ -132,7 +132,7 @@ public class PostServiceImpl implements IPostService {
     @Override
     public ResultResponse<List<Post>> getRecentPosts() {
         try {
-            Pageable pageable = PageRequest.of(0, 6, Sort.by(Sort.Direction.DESC, "createdAt"));
+            Pageable pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "createdAt"));
             List<Post> recentPosts = postRepository.findAll(pageable).getContent();
 
             if (recentPosts.isEmpty()) {

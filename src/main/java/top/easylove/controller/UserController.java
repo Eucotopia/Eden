@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import top.easylove.common.WebSocket;
+import top.easylove.pojo.User;
 import top.easylove.pojo.dto.AuthenticationDto;
 import top.easylove.pojo.dto.UserDto;
 import top.easylove.pojo.vo.AuthenticationVO;
@@ -100,6 +101,11 @@ public class UserController {
             @Parameter(description = "User details for password reset", required = true)
             @RequestBody UserDto userDto) {
         return userService.resetPassword(userDto);
+    }
+
+    @GetMapping("/{uid}")
+    public ResultResponse<User> getUser(@PathVariable String uid) {
+        return userService.getUser(uid);
     }
 
 }

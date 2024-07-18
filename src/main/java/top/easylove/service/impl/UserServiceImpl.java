@@ -187,6 +187,12 @@ public class UserServiceImpl implements IUserService {
         return ResultResponse.error(ResultEnum.ERROR);
     }
 
+    @Override
+    public ResultResponse<User> getUser(String uid) {
+        Optional<User> userOptional = userRepository.findById(uid);
+        return userOptional.map(user -> ResultResponse.success(ResultEnum.SUCCESS, user)).orElseGet(() -> ResultResponse.error(ResultEnum.USER_NOT_FOUND));
+    }
+
     @Async
     protected void generateAndSendVerificationCode(String email) {
 

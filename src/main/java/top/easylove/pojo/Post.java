@@ -42,7 +42,7 @@ public class Post implements Serializable {
     @Column(name = "author_id", nullable = false)
     @CreatedBy
     @Schema(description = "ID of the author who created the post", example = "user123")
-    private String author_id;
+    private String authorId;
 
     @Column(name = "views")
     @Schema(description = "Number of views the post has received", example = "100")
@@ -92,7 +92,7 @@ public class Post implements Serializable {
             joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id")
     )
-    @JsonIgnoreProperties(value = { "posts" })
+    @JsonIgnoreProperties(value = {"posts"})
     private Set<Tag> tags;
 
 
@@ -101,6 +101,6 @@ public class Post implements Serializable {
             joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id")
     )
-    @JsonIgnoreProperties(value = { "posts" })
+    @JsonIgnoreProperties(value = {"posts"})
     private Set<Category> categories;
 }
