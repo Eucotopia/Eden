@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import top.easylove.pojo.Role;
 import top.easylove.pojo.User;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -22,5 +23,6 @@ public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findUserByEmail(String email);
 
     Optional<List<User>> findUserByStatusEquals(Integer status);
-    Optional<List<User>> findUsersByRolesIn(Set<Role> role);
+    Optional<List<User>> findUsersByRolesIn(Collection<Set<Role>> roles);
+
 }
