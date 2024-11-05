@@ -1,23 +1,36 @@
 import NIOSSL
 import Fluent
-import FluentPostgresDriver
 import Vapor
+import FluentMySQLDriver
 
 // configures your application
 public func configure(_ app: Application) async throws {
     // uncomment to serve files from /Public folder
     // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+    var tls = TLSConfiguration.makeClientConfiguration()
+    tls.certificateVerification = .none
 
-    app.databases.use(DatabaseConfigurationFactory.postgres(configuration: .init(
-        hostname: Environment.get("DATABASE_HOST") ?? "localhost",
-        port: Environment.get("DATABASE_PORT").flatMap(Int.init(_:)) ?? SQLPostgresConfiguration.ianaPortNumber,
-        username: Environment.get("DATABASE_USERNAME") ?? "vapor_username",
-        password: Environment.get("DATABASE_PASSWORD") ?? "vapor_password",
-        database: Environment.get("DATABASE_NAME") ?? "vapor_database",
-        tls: .prefer(try .init(configuration: .clientDefault)))
-    ), as: .psql)
+    app.databases.use(.mysql(
+        hostname: "127.0.0.1",
+        port: MySQLConfiguration.ianaPortNumber,
+        username: "root",
+        password: "Lw001208...",
+        database: "blog",
+        tlsConfiguration: tls
+    ), as: .mysql)
 
-    app.migrations.add(CreateTodo())
+    // 添加迁移
+    app.migrations.add(UserModelMigration())
+
+    do {
+        try await app.autoMigrate()
+        app.logger.info("Migration completed successfully.")
+    } catch {
+        app.logger.error("Migration failed: \(error.localizedDescription)")
+    }
+
+    app.logger.logLevel = .debug
+
     // register routes
     try routes(app)
 }
